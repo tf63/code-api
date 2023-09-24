@@ -1,0 +1,34 @@
+{
+    "name": "Go",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "backend",
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "go.toolsManagement.checkForUpdates": "off",
+                "go.gopath": "/go", 
+                "go.formatTool": "goimports",
+                "go.useLanguageServer": true,
+                "[go]": {
+                    "editor.formatOnSave": true
+                },
+                "gopls": {
+                    "analyses": {
+                        "ST1003": true,
+                        "ST1016": true,
+                        "ST1020": true, 
+                        "ST1021": true, 
+                        "ST1022": true,
+                        "ST1023": true
+                    }
+                },
+                "markdown.copyFiles.destination": {
+                    // https://code.visualstudio.com/updates/v1_79#_copy-external-media-files-into-workspace-on-drop-or-paste-for-markdown
+                    "*.md": "${documentDirName}/img/${documentBaseName}.png"
+                }
+            },
+            "extensions": ["golang.go", "arjun.swagger-viewer"]
+        }
+    }
+}

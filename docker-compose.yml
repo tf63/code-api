@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    tty: true
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    env_file:
+      - .env.dev
+    # command: sh -c "go run server.go"
+
+  postgres:
+    image: postgres:15.2
+    volumes:
+      - ./docker/sql/:/docker-entrypoint-initdb.d/
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.dev
+
+  postgres_test:
+    image: postgres:15.2
+    volumes:
+      - ./docker/sql/:/docker-entrypoint-initdb.d/
+      - postgres_data_test:/var/lib/postgresql/data
+    ports:
+      - 5430:5432
+    env_file:
+      - .env.dev
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - 8888:80
+    volumes:
+      - pgadmin4_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    env_file:
+      - .env.dev
+
+volumes:
+  postgres_data:
+  postgres_data_test:
+  pgadmin4_data:
