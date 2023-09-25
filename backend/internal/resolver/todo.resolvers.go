@@ -22,13 +22,13 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input graph.NewTodo) 
 		return nil, err
 	}
 
-	todoEntity, err := r.Tr.ReadTodo(todoId)
+	todoEntity, err := r.Tr.ReadTodo(*todoId)
 	if err != nil {
 		err = TodoErrorHandler("Read", err)
 		return nil, err
 	}
 
-	todo := TodoDTO(todoEntity)
+	todo := TodoDTO(*todoEntity)
 
 	return &todo, nil
 }
@@ -65,7 +65,7 @@ func (r *queryResolver) Todo(ctx context.Context, input string) (*graph.Todo, er
 		return nil, err
 	}
 
-	todo := TodoDTO(todoEntity)
+	todo := TodoDTO(*todoEntity)
 
 	return &todo, nil
 }

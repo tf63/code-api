@@ -4,18 +4,16 @@ package entity
 type StatusError int
 
 // Errorを実装
-func (e StatusError) Error() (message string) {
+func (e StatusError) Error() string {
 
 	switch e {
 	case 503:
-		message = "STATUS SERVICE UNAVAILABLE"
+		return "STATUS SERVICE UNAVAILABLE"
 	case 404:
-		message = "STATUS NOT FOUND"
+		return "STATUS NOT FOUND"
 	default:
-		message = "UNKNOWN ERROR"
+		return "UNKNOWN ERROR"
 	}
-
-	return
 }
 
 // 構造体を列挙
