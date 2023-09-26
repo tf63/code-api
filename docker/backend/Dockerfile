@@ -15,7 +15,7 @@ RUN apk update --no-cache \
     wget
 
 # モジュールのダウンロード
-COPY backend/go.mod backend/go.sum backend/Makefile ./
+COPY go.mod go.sum Makefile ./
 RUN go mod download
 RUN make install-tools
 
