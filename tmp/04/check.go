@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	title := ""
-	done := ""
+	title := "todo 4"
+	done := "true"
 	ticketIdx := 4
 
 	if err := utils.Check(title, done, ticketIdx); err != nil {
