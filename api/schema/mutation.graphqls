@@ -1,0 +1,5 @@
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+  createProgramCode(input: NewProgramCode!): String!
+}

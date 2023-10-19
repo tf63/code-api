@@ -1,0 +1,28 @@
+# ----------------------------------------------------------------
+# GET
+# ----------------------------------------------------------------
+type ProgramCode {
+  programCodeId: String!
+  content: String!
+  nrow: Int!
+  createdAt: Time!
+}
+
+type ProgramCodeEdge {
+  node: ProgramCode!
+  cursor: String!
+}
+
+type ProgramCodeConnection {
+  edges: [ProgramCodeEdge!]!
+  pageInfo: PageInfo!
+}
+
+# ----------------------------------------------------------------
+# POST
+# ----------------------------------------------------------------
+input NewProgramCode {
+  toolId: String!
+  content: String!
+  nrow: Int!
+}

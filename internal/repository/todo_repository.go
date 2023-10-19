@@ -40,7 +40,7 @@ func (tr *todoRepository) CreateTodo(input entity.NewTodo) (*int, error) {
 
 	// 実行するSQL (プレースホルダを使う)
 	query := `
-	INSERT INTO todos (title)
+	INSERT INTO Todo (title)
 		VALUES ($1)
 		RETURNING id
 	`
@@ -69,7 +69,7 @@ func (tr *todoRepository) CreateTodo(input entity.NewTodo) (*int, error) {
 func (tr *todoRepository) ReadTodos() ([]entity.Todo, error) {
 
 	// 実行するSQL (プレースホルダを使う)
-	query := `SELECT id, title, done FROM todos LIMIT 100`
+	query := `SELECT id, title, done FROM Todo LIMIT 100`
 
 	// レコードを割り当てる
 	rows, err := tr.Db.Query(query)
@@ -96,7 +96,7 @@ func (tr *todoRepository) ReadTodos() ([]entity.Todo, error) {
 func (tr *todoRepository) ReadTodo(todoId int) (*entity.Todo, error) {
 
 	// 実行するSQL
-	query := `SELECT id, title, done FROM todos WHERE id = $1`
+	query := `SELECT id, title, done FROM Todo WHERE id = $1`
 
 	// レコードを割り当てる
 	todo := entity.Todo{}
