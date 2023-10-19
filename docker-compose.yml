@@ -42,8 +42,6 @@ services:
       - 8888:80
     volumes:
       - pgadmin4_data:/var/lib/pgadmin
-    depends_on:
-      - postgres
     env_file:
       - .env.dev
 
