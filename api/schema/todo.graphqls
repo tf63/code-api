@@ -1,9 +1,0 @@
-type Todo {
-  id: ID!
-  title: String!
-  done: Boolean!
-}
-
-input NewTodo {
-  title: String!
-}

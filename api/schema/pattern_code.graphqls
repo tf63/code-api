@@ -1,19 +1,21 @@
 # ----------------------------------------------------------------
-# ProgramCode
+# PatternCode
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 # GET
 # ----------------------------------------------------------------
-type ProgramCode {
-  programCodeId: String!
+type PatternCode {
+  patternCodeId: String!
   content: String!
   nrow: Int!
   createdAt: Time!
-  toolId: String!
+  languageId: String!
+  patternId: String!
 }
 
-input FindProgramCode {
-  toolId: String!
+input FindPatternCode {
+  languageId: String!
+  patternId: String!
   startRow: Int
   endRow: Int
   offset: Int
@@ -23,7 +25,8 @@ input FindProgramCode {
 # ----------------------------------------------------------------
 # POST
 # ----------------------------------------------------------------
-input NewProgramCode {
-  toolId: String!
+input NewPatternCode {
+  languageId: String!
+  patternId: String!
   content: String!
 }

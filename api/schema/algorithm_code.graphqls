@@ -1,19 +1,21 @@
 # ----------------------------------------------------------------
-# ProgramCode
+# AlgorithmCode
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 # GET
 # ----------------------------------------------------------------
-type ProgramCode {
-  programCodeId: String!
+type AlgorithmCode {
+  algorithmCodeId: String!
   content: String!
   nrow: Int!
   createdAt: Time!
-  toolId: String!
+  languageId: String!
+  algorithmId: String!
 }
 
-input FindProgramCode {
-  toolId: String!
+input FindAlgorithmCode {
+  languageId: String!
+  algorithmId: String!
   startRow: Int
   endRow: Int
   offset: Int
@@ -23,7 +25,8 @@ input FindProgramCode {
 # ----------------------------------------------------------------
 # POST
 # ----------------------------------------------------------------
-input NewProgramCode {
-  toolId: String!
+input NewAlgorithmCode {
+  languageId: String!
+  algorithmId: String!
   content: String!
 }

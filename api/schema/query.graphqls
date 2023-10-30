@@ -1,12 +1,30 @@
-
 type Query {
-  todos: [Todo!]!
-  todo(input: String!): Todo!
+  # ----------------------------------------------------------------
+  # master
+  # ----------------------------------------------------------------
+  languages: [Language!]!
+  frameworks: [Framework!]!
+  algorithms: [Algorithm!]!
+  patterns: [Pattern!]!
+
+  # ----------------------------------------------------------------
+  # ProgramCode
+  # ----------------------------------------------------------------
+  programCodes(
+    input: FindProgramCode!
+  ): [ProgramCode!]!
+
+  # ----------------------------------------------------------------
+  # PatternCode
+  # ----------------------------------------------------------------
+  patternCodes(
+    input: FindPatternCode!
+  ): [PatternCode!]!
   
-  getProgramCodeList(
-    after: String
-    before: String
-    first: Int
-    last: Int
-  ): ProgramCodeConnection
+  # ----------------------------------------------------------------
+  # AlgorithmCode
+  # ----------------------------------------------------------------
+  algorithmCodes(
+    input: FindAlgorithmCode!
+  ): [AlgorithmCode!]!
 }
