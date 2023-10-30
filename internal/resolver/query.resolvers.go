@@ -6,52 +6,155 @@ package resolver
 
 import (
 	"context"
-	"fmt"
-	"strconv"
 
 	"github.com/tf63/code-api/api"
 )
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*api.Todo, error) {
-
-	todosEntity, err := r.Tr.ReadTodos()
+// Languages is the resolver for the languages field.
+func (r *queryResolver) Languages(ctx context.Context) ([]*api.Language, error) {
+	// Languageを取得
+	languages, err := r.Lgr.ReadLanguages()
 	if err != nil {
-		err = TodoErrorHandler("Read", err)
 		return nil, err
 	}
 
-	todos := []*api.Todo{}
-	for _, todoEntity := range todosEntity {
-		todo := TodoDTO(todoEntity)
-		todos = append(todos, &todo)
+	// repositoryの戻り値をレスポンスに変換
+	languageDtos := []*api.Language{}
+	for _, language := range languages {
+		languageDto := NewLanguageDto(language)
+		languageDtos = append(languageDtos, &languageDto)
 	}
 
-	return todos, nil
+	return languageDtos, nil
 }
 
-// Todo is the resolver for the todo field.
-func (r *queryResolver) Todo(ctx context.Context, input string) (*api.Todo, error) {
-	todoId, err := strconv.Atoi(input)
+// Frameworks is the resolver for the frameworks field.
+func (r *queryResolver) Frameworks(ctx context.Context) ([]*api.Framework, error) {
+	// Frameworkを取得
+	frameworks, err := r.Fwr.ReadFrameworks()
 	if err != nil {
-		err = TodoErrorHandler("Read", err)
 		return nil, err
 	}
 
-	todoEntity, err := r.Tr.ReadTodo(todoId)
-	if err != nil {
-		err = TodoErrorHandler("Read", err)
-		return nil, err
+	// repositoryの戻り値をレスポンスに変換
+	frameworkDtos := []*api.Framework{}
+	for _, framework := range frameworks {
+		frameworkDto := NewFrameworkDto(framework)
+		frameworkDtos = append(frameworkDtos, &frameworkDto)
 	}
 
-	todo := TodoDTO(*todoEntity)
-
-	return &todo, nil
+	return frameworkDtos, nil
 }
 
-// GetProgramCodeList is the resolver for the getProgramCodeList field.
-func (r *queryResolver) GetProgramCodeList(ctx context.Context, after *string, before *string, first *int, last *int) (*api.ProgramCodeConnection, error) {
-	panic(fmt.Errorf("not implemented: GetProgramCodeList - getProgramCodeList"))
+// Algorithms is the resolver for the algorithms field.
+func (r *queryResolver) Algorithms(ctx context.Context) ([]*api.Algorithm, error) {
+	// Algorithmを取得
+	algorithms, err := r.Arr.ReadAlgorithms()
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	algorithmDtos := []*api.Algorithm{}
+	for _, algorithm := range algorithms {
+		algorithmDto := NewAlgorithmDto(algorithm)
+		algorithmDtos = append(algorithmDtos, &algorithmDto)
+	}
+
+	return algorithmDtos, nil
+}
+
+// Patterns is the resolver for the patterns field.
+func (r *queryResolver) Patterns(ctx context.Context) ([]*api.Pattern, error) {
+	// Patternを取得
+	patterns, err := r.Ptr.ReadPatterns()
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	patternDtos := []*api.Pattern{}
+	for _, pattern := range patterns {
+		patternDto := NewPatternDto(pattern)
+		patternDtos = append(patternDtos, &patternDto)
+	}
+
+	return patternDtos, nil
+}
+
+// ProgramCodes is the resolver for the programCodes field.
+func (r *queryResolver) ProgramCodes(ctx context.Context, input api.FindProgramCode) ([]*api.ProgramCode, error) {
+
+	// 入力をrepositoryへの入力に変換
+	findProgramCode, err := NewFindProgramCodeFromDto(input)
+	if err != nil {
+		return nil, err
+	}
+
+	// ProgramCodeを取得
+	programCodes, err := r.Pgcr.ReadProgramCode(*findProgramCode)
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	programCodeDtos := []*api.ProgramCode{}
+	for _, programCode := range programCodes {
+		programCodeDto := NewProgramCodeDto(programCode)
+		programCodeDtos = append(programCodeDtos, &programCodeDto)
+	}
+
+	return programCodeDtos, nil
+}
+
+// PatternCodes is the resolver for the patternCodes field.
+func (r *queryResolver) PatternCodes(ctx context.Context, input api.FindPatternCode) ([]*api.PatternCode, error) {
+
+	// 入力をrepositoryへの入力に変換
+	findPatternCode, err := NewFindPatternCodeFromDto(input)
+	if err != nil {
+		return nil, err
+	}
+
+	// PatternCodeを取得
+	patternCodes, err := r.Ptcr.ReadPatternCode(*findPatternCode)
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	patternCodeDtos := []*api.PatternCode{}
+	for _, patternCode := range patternCodes {
+		patternCodeDto := NewPatternCodeDto(patternCode)
+		patternCodeDtos = append(patternCodeDtos, &patternCodeDto)
+	}
+
+	return patternCodeDtos, nil
+}
+
+// AlgorithmCodes is the resolver for the algorithmCodes field.
+func (r *queryResolver) AlgorithmCodes(ctx context.Context, input api.FindAlgorithmCode) ([]*api.AlgorithmCode, error) {
+
+	// 入力をrepositoryへの入力に変換
+	findAlgorithmCode, err := NewFindAlgorithmCodeFromDto(input)
+	if err != nil {
+		return nil, err
+	}
+
+	// AlgorithmCodeを取得
+	algorithmCodes, err := r.Arcr.ReadAlgorithmCode(*findAlgorithmCode)
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	algorithmCodeDtos := []*api.AlgorithmCode{}
+	for _, algorithmCode := range algorithmCodes {
+		algorithmCodeDto := NewAlgorithmCodeDto(algorithmCode)
+		algorithmCodeDtos = append(algorithmCodeDtos, &algorithmCodeDto)
+	}
+
+	return algorithmCodeDtos, nil
 }
 
 // Query returns api.QueryResolver implementation.

@@ -11,31 +11,19 @@ import (
 	"github.com/tf63/code-api/api"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input api.NewTodo) (*api.Todo, error) {
-
-	inputEntity := NewTodoDTO(input)
-
-	todoId, err := r.Tr.CreateTodo(inputEntity)
-	if err != nil {
-		err = TodoErrorHandler("Create", err)
-		return nil, err
-	}
-
-	todoEntity, err := r.Tr.ReadTodo(*todoId)
-	if err != nil {
-		err = TodoErrorHandler("Read", err)
-		return nil, err
-	}
-
-	todo := TodoDTO(*todoEntity)
-
-	return &todo, nil
-}
-
 // CreateProgramCode is the resolver for the createProgramCode field.
 func (r *mutationResolver) CreateProgramCode(ctx context.Context, input api.NewProgramCode) (string, error) {
 	panic(fmt.Errorf("not implemented: CreateProgramCode - createProgramCode"))
+}
+
+// CreatePatternCode is the resolver for the createPatternCode field.
+func (r *mutationResolver) CreatePatternCode(ctx context.Context, input api.NewPatternCode) (string, error) {
+	panic(fmt.Errorf("not implemented: CreatePatternCode - createPatternCode"))
+}
+
+// CreateAlgorithmCode is the resolver for the createAlgorithmCode field.
+func (r *mutationResolver) CreateAlgorithmCode(ctx context.Context, input api.NewAlgorithmCode) (string, error) {
+	panic(fmt.Errorf("not implemented: CreateAlgorithmCode - createAlgorithmCode"))
 }
 
 // Mutation returns api.MutationResolver implementation.

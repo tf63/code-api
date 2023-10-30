@@ -21,9 +21,27 @@ func main() {
 		port = defaultPort
 	}
 
-	db, _ := external.ConnectDatabase()
-	ntr := repository.NewTodoRepository(db)
-	srv := handler.NewDefaultServer(api.NewExecutableSchema(api.Config{Resolvers: &resolver.Resolver{Tr: ntr}})) // 修正
+	db, err := external.ConnectDatabase()
+	if err != nil {
+		log.Fatal("Failed to Connect Database")
+	}
+
+	rdb, err := external.ConnectRedis()
+	if err != nil {
+		log.Fatal("Failed to Connect Database")
+	}
+
+	pgcr := repository.NewProgramCodeRepository(db)
+	ptcr := repository.NewPatternCodeRepository(db)
+	arcr := repository.NewAlgorithmCodeRepository(db)
+	lgr := repository.NewLanguageRepository(db, rdb)
+	fwr := repository.NewFrameworkRepository(db, rdb)
+	arr := repository.NewAlgorithmRepository(db, rdb)
+	ptr := repository.NewPatternRepository(db, rdb)
+
+	resolver := resolver.Resolver{Pgcr: pgcr, Ptcr: ptcr, Arcr: arcr,
+		Lgr: lgr, Fwr: fwr, Arr: arr, Ptr: ptr}
+	srv := handler.NewDefaultServer(api.NewExecutableSchema(api.Config{Resolvers: &resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

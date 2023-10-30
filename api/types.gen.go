@@ -6,21 +6,85 @@ import (
 	"time"
 )
 
+type Algorithm struct {
+	AlgorithmID string `json:"algorithmId"`
+	Name        string `json:"name"`
+}
+
+type AlgorithmCode struct {
+	AlgorithmCodeID string    `json:"algorithmCodeId"`
+	Content         string    `json:"content"`
+	Nrow            int       `json:"nrow"`
+	CreatedAt       time.Time `json:"createdAt"`
+	LanguageID      string    `json:"languageId"`
+	AlgorithmID     string    `json:"algorithmId"`
+}
+
+type FindAlgorithmCode struct {
+	LanguageID  string `json:"languageId"`
+	AlgorithmID string `json:"algorithmId"`
+	StartRow    *int   `json:"startRow,omitempty"`
+	EndRow      *int   `json:"endRow,omitempty"`
+	Offset      *int   `json:"offset,omitempty"`
+	Limit       *int   `json:"limit,omitempty"`
+}
+
+type FindPatternCode struct {
+	LanguageID string `json:"languageId"`
+	PatternID  string `json:"patternId"`
+	StartRow   *int   `json:"startRow,omitempty"`
+	EndRow     *int   `json:"endRow,omitempty"`
+	Offset     *int   `json:"offset,omitempty"`
+	Limit      *int   `json:"limit,omitempty"`
+}
+
+type FindProgramCode struct {
+	ToolID   string `json:"toolId"`
+	StartRow *int   `json:"startRow,omitempty"`
+	EndRow   *int   `json:"endRow,omitempty"`
+	Offset   *int   `json:"offset,omitempty"`
+	Limit    *int   `json:"limit,omitempty"`
+}
+
+type Framework struct {
+	FrameworkID string `json:"frameworkId"`
+	Name        string `json:"name"`
+}
+
+type Language struct {
+	LanguageID string `json:"languageId"`
+	Name       string `json:"name"`
+}
+
+type NewAlgorithmCode struct {
+	LanguageID  string `json:"languageId"`
+	AlgorithmID string `json:"algorithmId"`
+	Content     string `json:"content"`
+}
+
+type NewPatternCode struct {
+	LanguageID string `json:"languageId"`
+	PatternID  string `json:"patternId"`
+	Content    string `json:"content"`
+}
+
 type NewProgramCode struct {
 	ToolID  string `json:"toolId"`
 	Content string `json:"content"`
-	Nrow    int    `json:"nrow"`
 }
 
-type NewTodo struct {
-	Title string `json:"title"`
+type Pattern struct {
+	PatternID string `json:"patternId"`
+	Name      string `json:"name"`
 }
 
-type PageInfo struct {
-	StartCursor     *string `json:"startCursor,omitempty"`
-	EndCursor       *string `json:"endCursor,omitempty"`
-	HasPreviousPage bool    `json:"hasPreviousPage"`
-	HasNextPage     bool    `json:"hasNextPage"`
+type PatternCode struct {
+	PatternCodeID string    `json:"patternCodeId"`
+	Content       string    `json:"content"`
+	Nrow          int       `json:"nrow"`
+	CreatedAt     time.Time `json:"createdAt"`
+	LanguageID    string    `json:"languageId"`
+	PatternID     string    `json:"patternId"`
 }
 
 type ProgramCode struct {
@@ -28,20 +92,5 @@ type ProgramCode struct {
 	Content       string    `json:"content"`
 	Nrow          int       `json:"nrow"`
 	CreatedAt     time.Time `json:"createdAt"`
-}
-
-type ProgramCodeConnection struct {
-	Edges    []*ProgramCodeEdge `json:"edges"`
-	PageInfo *PageInfo          `json:"pageInfo"`
-}
-
-type ProgramCodeEdge struct {
-	Node   *ProgramCode `json:"node"`
-	Cursor string       `json:"cursor"`
-}
-
-type Todo struct {
-	ID    string `json:"id"`
-	Title string `json:"title"`
-	Done  bool   `json:"done"`
+	ToolID        string    `json:"toolId"`
 }
