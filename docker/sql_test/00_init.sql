@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS program_code (
     tool_id BIGINT NOT NULL,
     FOREIGN KEY (tool_id) REFERENCES public.tool(tool_id) ON DELETE RESTRICT
 );
+CREATE INDEX ON program_code (tool_id, nrow);
 COMMENT ON TABLE program_code IS 'プログラミング言語のソースコードを管理するテーブル';
 
 CREATE TABLE IF NOT EXISTS algorithm_code (
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS algorithm_code (
     FOREIGN KEY (language_id) REFERENCES public.language(language_id) ON DELETE RESTRICT,
     FOREIGN KEY (algorithm_id) REFERENCES public.algorithm(algorithm_id) ON DELETE RESTRICT
 );
+CREATE INDEX ON algorithm_code (language_id, algorithm_id, nrow);
 COMMENT ON TABLE algorithm_code IS '様々なプログラミング言語で書かれたアルゴリズムのソースコードを管理するテーブル';
 
 CREATE TABLE IF NOT EXISTS pattern_code (
@@ -63,4 +65,5 @@ CREATE TABLE IF NOT EXISTS pattern_code (
     FOREIGN KEY (language_id) REFERENCES public.language(language_id) ON DELETE RESTRICT,
     FOREIGN KEY (pattern_id) REFERENCES public.pattern(pattern_id) ON DELETE RESTRICT
 );
+CREATE INDEX ON pattern_code (language_id, pattern_id, nrow);
 COMMENT ON TABLE pattern_code IS '様々なプログラミング言語で書かれたデザインパターンのソースコードを管理するテーブル';
