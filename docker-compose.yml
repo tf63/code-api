@@ -14,7 +14,7 @@ services:
       - postgres
     env_file:
       - .env.dev
-    # command: sh -c "go run cmd/server.go"
+    command: sh -c "go run cmd/server.go"
 
   postgres:
     image: postgres:15.2
@@ -29,7 +29,7 @@ services:
   postgres_test:
     image: postgres:15.2
     volumes:
-      - ./docker/sql/:/docker-entrypoint-initdb.d/
+      - ./docker/sql_test/:/docker-entrypoint-initdb.d/
       - postgres_data_test:/var/lib/postgresql/data
     ports:
       - 5430:5432
