@@ -1,0 +1,61 @@
+{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+        {
+            "role": "system",
+            "content": "### Settings ###\nYou are a highly skilled engineer with expertise in computer science. You have extensive knowledge in programming languages, frameworks, algorithms, machine learning, databases, and mathematics. You should return examples of source code for the specified number of lines in a programming language or framework provided by the user.\n\n### Length of source code ###\n- \"A\" responses will be approximately 0 to 10 lines.\n- \"B\" responses will be approximately 7 to 15 lines.\n- \"C\" responses will be approximately 15 to 25 lines.\n\n### Requirements ###\n- Do not include any text other than the source code under any circumstances.\n- Do must not include comments in the source code.\n- Do not include languages other than English in the source code\n- Please represent line breaks with \"\\n.\"\n- Please represent the indentation using as many \"\\t\".\n- Please return the source code in a formatted state.\n- Please only provide the source code from a single file.\n- If comments are included in the response, please remove them before returning.\n"
+        },
+        {
+            "role": "user",
+            "content": "[B] language typescript, framework: react, "
+        },
+        {
+            "role": "assistant",
+            "content": "import React from 'react';\nimport ReactDOM from 'react-dom';\n\ninterface AppProps {\n  name: string;\n}\n\nconst App: React.FC<AppProps> = ({ name }) => {\n  return <div>Hello, {name}!</div>;\n};\n\nReactDOM.render(<App name=\"World\" />, document.getElementById('root'));"
+        },
+        {
+            "role": "user",
+            "content": "[B] language: typescript, framework: nextjs"
+        },
+        {
+            "role": "assistant",
+            "content": "import React from 'react';\nimport { GetStaticProps, NextPage } from 'next';\n\ninterface HomeProps {\n  name: string;\n}\n\nconst Home: NextPage<HomeProps> = ({ name }) => {\n  return <div>Hello, {name}!</div>;\n};\n\nexport const getStaticProps: GetStaticProps<HomeProps> = async () => {\n  return {\n    props: {\n      name: 'World',\n    },\n  };\n};\n\nexport default Home;"
+        },
+        {
+            "role": "user",
+            "content": "[B] language: go, framework: none"
+        },
+        {
+            "role": "assistant",
+            "content": "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n)\n\nfunc handler(w http.ResponseWriter, r *http.Request) {\n\tfmt.Fprintf(w, \"Hello, World!\")\n}\n\nfunc main() {\n\thttp.HandleFunc(\"/\", handler)\n\thttp.ListenAndServe(\":8080\", nil)\n}"
+        },
+        {
+            "role": "user",
+            "content": "[C] language: python, framework: fastapi"
+        },
+        {
+            "role": "assistant",
+            "content": "from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\nasync def root():\n    return {\"message\": \"Hello, World!\"}\n\n@app.get(\"/items/{item_id}\")\nasync def read_item(item_id: int, q: str = None):\n    return {\"item_id\": item_id, \"q\": q}\n\n@app.post(\"/items/\")\nasync def create_item(item: Item):\n    return item\n\nclass Item:\n    def __init__(self, name: str, price: float):\n        self.name = name\n        self.price = price\n\nif __name__ == \"__main__\":\n    import uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)"
+        },
+        {
+            "role": "user",
+            "content": "[B] language: php, framework: laravel"
+        },
+        {
+            "role": "assistant",
+            "content": "<?php\n\nuse Illuminate\\Support\\Facades\\Route;\n\nRoute::get('/', function () {\n    return 'Hello, World!';\n});\n\nRoute::get('/items/{item_id}', function ($item_id) {\n    return \"Item ID: $item_id\";\n});\n\nRoute::post('/items', function () {\n    return 'New item created';\n});\n\nRoute::fallback(function () {\n    return 'Page not found';\n});"
+        },
+        {
+            "role": "user",
+            "content": "[C] language: php, framework: laravel"
+        },
+        {
+            "role": "assistant",
+            "content": "<?php\n\nuse Illuminate\\Support\\Facades\\Route;\n\nRoute::get('/', function () {\n    return view('welcome');\n});\n\nRoute::get('/items/{item_id}', 'ItemController@show');\n\nRoute::post('/items', 'ItemController@store');\n\nRoute::fallback(function () {\n    return response()->json(['message' => 'Page not found'], 404);\n});\n\nclass ItemController extends Controller\n{\n    public function show($item_id)\n    {\n        return \"Item ID: $item_id\";\n    }\n\n    public function store(Request $request)\n    {\n        // Store new item\n        return response()->json(['message' => 'New item created']);\n    }\n}"
+        },
+        {
+            "role": "user",
+            "content": "[C] language: python, framework: flask"
+        }
+    ]
+}

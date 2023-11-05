@@ -1,3 +1,4 @@
+#!/bin/bash
 script='query {
   programCodes(input: {
     toolId: "1",
@@ -16,9 +17,9 @@ script='query {
 
 # シングルクォートで囲まれた変数内のダブルクォートをエスケープ
 script="${script//\"/\\\"}"
-script="$(echo $script)" #改行を消して1行にする、改行あるとJSON parsingエラーが返ってくる
+script="$(echo $script)"
 
 # CURLコマンドでJSONリクエストを送信
-curl -X POST "http://localhost:8080/query" \
+curl "http://localhost:8080/query" \
     -H "Content-Type: application/json" \
-    -d "{\"query\": \"$script\"}"
+    -X POST -d "{\"query\": \"$script\"}"
