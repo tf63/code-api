@@ -1,0 +1,28 @@
+# ----------------------------------------------------------------
+# Master
+# ----------------------------------------------------------------
+type Language {
+    languageId: String!
+    name: String!
+}
+
+type Framework {
+    frameworkId: String!
+    name: String!
+}
+
+type Algorithm {
+    algorithmId: String!
+    name: String!
+}
+
+type Pattern {
+    patternId: String!
+    name: String!
+}
+
+# ----------------------------------------------------------------
+# カスタムスカラ
+# ----------------------------------------------------------------
+# gqlgen.ymlファイルをいじる必要がある https://zenn.dev/hsaki/books/golang-graphql/viewer/customscalar
+scalar Time

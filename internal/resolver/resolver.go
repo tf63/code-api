@@ -9,5 +9,11 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Tr repository.TodoRepository
+	Pgcr repository.ProgramCodeRepository
+	Ptcr repository.PatternCodeRepository
+	Arcr repository.AlgorithmCodeRepository
+	Lgr  repository.LanguageRepository
+	Arr  repository.AlgorithmRepository
+	Fwr  repository.FrameworkRepository
+	Ptr  repository.PatternRepository
 }

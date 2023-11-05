@@ -1,0 +1,29 @@
+# ----------------------------------------------------------------
+# ProgramCode
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+# GET
+# ----------------------------------------------------------------
+type ProgramCode {
+  programCodeId: String!
+  content: String!
+  nrow: Int!
+  createdAt: Time!
+  toolId: String!
+}
+
+input FindProgramCode {
+  toolId: String!
+  startRow: Int
+  endRow: Int
+  offset: Int
+  limit: Int
+}
+
+# ----------------------------------------------------------------
+# POST
+# ----------------------------------------------------------------
+input NewProgramCode {
+  toolId: String!
+  content: String!
+}

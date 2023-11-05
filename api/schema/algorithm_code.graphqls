@@ -1,0 +1,32 @@
+# ----------------------------------------------------------------
+# AlgorithmCode
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+# GET
+# ----------------------------------------------------------------
+type AlgorithmCode {
+  algorithmCodeId: String!
+  content: String!
+  nrow: Int!
+  createdAt: Time!
+  languageId: String!
+  algorithmId: String!
+}
+
+input FindAlgorithmCode {
+  languageId: String!
+  algorithmId: String!
+  startRow: Int
+  endRow: Int
+  offset: Int
+  limit: Int
+}
+
+# ----------------------------------------------------------------
+# POST
+# ----------------------------------------------------------------
+input NewAlgorithmCode {
+  languageId: String!
+  algorithmId: String!
+  content: String!
+}
