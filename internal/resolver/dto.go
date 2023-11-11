@@ -40,44 +40,44 @@ func NewPatternDto(m model.Pattern) api.Pattern {
 }
 
 // ----------------------------------------------------------------
-// ProgramCode
+// FrameworkCode
 // ----------------------------------------------------------------
-func NewProgramCodeDto(m model.ProgramCode) api.ProgramCode {
-	return api.ProgramCode{
-		ProgramCodeID: fmt.Sprintf("%d", m.ProgramCodeId),
-		Content:       m.Content,
-		Nrow:          m.Nrow,
-		CreatedAt:     m.CreatedAt,
-		ToolID:        fmt.Sprintf("%d", m.ToolId),
+func NewFrameworkCodeDto(m model.FrameworkCode) api.FrameworkCode {
+	return api.FrameworkCode{
+		FrameworkCodeID: fmt.Sprintf("%d", m.FrameworkCodeId),
+		Content:         m.Content,
+		Nrow:            m.Nrow,
+		CreatedAt:       m.CreatedAt,
+		ToolID:          fmt.Sprintf("%d", m.ToolId),
 	}
 }
 
-func NewFindProgramCodeFromDto(input api.FindProgramCode) (*model.FindProgramCode, error) {
-	findProgramCode := model.FindProgramCode{}
+func NewFindFrameworkCodeFromDto(input api.FindFrameworkCode) (*model.FindFrameworkCode, error) {
+	findFrameworkCode := model.FindFrameworkCode{}
 
 	if input.Offset != nil {
-		findProgramCode.Offset = *input.Offset
+		findFrameworkCode.Offset = *input.Offset
 	}
 
 	if input.Limit != nil {
-		findProgramCode.Limit = *input.Limit
+		findFrameworkCode.Limit = *input.Limit
 	}
 
 	if input.StartRow != nil {
-		findProgramCode.StartRow = *input.StartRow
+		findFrameworkCode.StartRow = *input.StartRow
 	}
 
 	if input.EndRow != nil {
-		findProgramCode.EndRow = *input.EndRow
+		findFrameworkCode.EndRow = *input.EndRow
 	}
 
 	toolId, err := strconv.Atoi(input.ToolID)
 	if err != nil {
 		return nil, err
 	}
-	findProgramCode.ToolId = toolId
+	findFrameworkCode.ToolId = toolId
 
-	return &findProgramCode, nil
+	return &findFrameworkCode, nil
 }
 
 // ----------------------------------------------------------------
@@ -167,11 +167,52 @@ func NewFindAlgorithmCodeFromDto(input api.FindAlgorithmCode) (*model.FindAlgori
 	}
 	findAlgorithmCode.LanguageId = languageId
 
-	patternId, err := strconv.Atoi(input.AlgorithmID)
+	algorithmId, err := strconv.Atoi(input.AlgorithmID)
 	if err != nil {
 		return nil, err
 	}
-	findAlgorithmCode.AlgorithmId = patternId
+	findAlgorithmCode.AlgorithmId = algorithmId
 
 	return &findAlgorithmCode, nil
+}
+
+// ----------------------------------------------------------------
+// LanguageCode
+// ----------------------------------------------------------------
+func NewLanguageCodeDto(m model.LanguageCode) api.LanguageCode {
+	return api.LanguageCode{
+		LanguageCodeID: fmt.Sprintf("%d", m.LanguageCodeId),
+		Content:        m.Content,
+		Nrow:           m.Nrow,
+		CreatedAt:      m.CreatedAt,
+		LanguageID:     fmt.Sprintf("%d", m.LanguageId),
+	}
+}
+
+func NewFindLanguageCodeFromDto(input api.FindLanguageCode) (*model.FindLanguageCode, error) {
+	findLanguageCode := model.FindLanguageCode{}
+
+	if input.Offset != nil {
+		findLanguageCode.Offset = *input.Offset
+	}
+
+	if input.Limit != nil {
+		findLanguageCode.Limit = *input.Limit
+	}
+
+	if input.StartRow != nil {
+		findLanguageCode.StartRow = *input.StartRow
+	}
+
+	if input.EndRow != nil {
+		findLanguageCode.EndRow = *input.EndRow
+	}
+
+	languageId, err := strconv.Atoi(input.LanguageID)
+	if err != nil {
+		return nil, err
+	}
+	findLanguageCode.LanguageId = languageId
+
+	return &findLanguageCode, nil
 }

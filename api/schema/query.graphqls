@@ -8,11 +8,11 @@ type Query {
   patterns: [Pattern!]!
 
   # ----------------------------------------------------------------
-  # ProgramCode
+  # FrameworkCode
   # ----------------------------------------------------------------
-  programCodes(
-    input: FindProgramCode!
-  ): [ProgramCode!]!
+  frameworkCodes(
+    input: FindFrameworkCode!
+  ): [FrameworkCode!]!
 
   # ----------------------------------------------------------------
   # PatternCode
@@ -27,4 +27,11 @@ type Query {
   algorithmCodes(
     input: FindAlgorithmCode!
   ): [AlgorithmCode!]!
+
+  # ----------------------------------------------------------------
+  # LanguageCode
+  # ----------------------------------------------------------------
+  languageCodes(
+    input: FindLanguageCode!
+  ): [LanguageCode!]!
 }

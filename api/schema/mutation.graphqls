@@ -1,8 +1,8 @@
 type Mutation {
   # ----------------------------------------------------------------
-  # ProgramCode
+  # FrameworkCode
   # ----------------------------------------------------------------
-  createProgramCode(input: NewProgramCode!): String!
+  createFrameworkCode(input: NewFrameworkCode!): String!
 
   # ----------------------------------------------------------------
   # PatternCode
@@ -13,4 +13,9 @@ type Mutation {
   # AlgorithmCode
   # ----------------------------------------------------------------
   createAlgorithmCode(input: NewAlgorithmCode!): String!
+
+  # ----------------------------------------------------------------
+  # LanguageCode
+  # ----------------------------------------------------------------
+  createLanguageCode(input: NewLanguageCode!): String!
 }

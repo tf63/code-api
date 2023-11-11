@@ -82,34 +82,32 @@ func (r *queryResolver) Patterns(ctx context.Context) ([]*api.Pattern, error) {
 	return patternDtos, nil
 }
 
-// ProgramCodes is the resolver for the programCodes field.
-func (r *queryResolver) ProgramCodes(ctx context.Context, input api.FindProgramCode) ([]*api.ProgramCode, error) {
-
+// FrameworkCodes is the resolver for the frameworkCodes field.
+func (r *queryResolver) FrameworkCodes(ctx context.Context, input api.FindFrameworkCode) ([]*api.FrameworkCode, error) {
 	// 入力をrepositoryへの入力に変換
-	findProgramCode, err := NewFindProgramCodeFromDto(input)
+	findFrameworkCode, err := NewFindFrameworkCodeFromDto(input)
 	if err != nil {
 		return nil, err
 	}
 
-	// ProgramCodeを取得
-	programCodes, err := r.Pgcr.ReadProgramCode(*findProgramCode)
+	// FrameworkCodeを取得
+	frameworkCodes, err := r.Fwcr.ReadFrameworkCode(*findFrameworkCode)
 	if err != nil {
 		return nil, err
 	}
 
 	// repositoryの戻り値をレスポンスに変換
-	programCodeDtos := []*api.ProgramCode{}
-	for _, programCode := range programCodes {
-		programCodeDto := NewProgramCodeDto(programCode)
-		programCodeDtos = append(programCodeDtos, &programCodeDto)
+	frameworkCodeDtos := []*api.FrameworkCode{}
+	for _, frameworkCode := range frameworkCodes {
+		frameworkCodeDto := NewFrameworkCodeDto(frameworkCode)
+		frameworkCodeDtos = append(frameworkCodeDtos, &frameworkCodeDto)
 	}
 
-	return programCodeDtos, nil
+	return frameworkCodeDtos, nil
 }
 
 // PatternCodes is the resolver for the patternCodes field.
 func (r *queryResolver) PatternCodes(ctx context.Context, input api.FindPatternCode) ([]*api.PatternCode, error) {
-
 	// 入力をrepositoryへの入力に変換
 	findPatternCode, err := NewFindPatternCodeFromDto(input)
 	if err != nil {
@@ -134,7 +132,6 @@ func (r *queryResolver) PatternCodes(ctx context.Context, input api.FindPatternC
 
 // AlgorithmCodes is the resolver for the algorithmCodes field.
 func (r *queryResolver) AlgorithmCodes(ctx context.Context, input api.FindAlgorithmCode) ([]*api.AlgorithmCode, error) {
-
 	// 入力をrepositoryへの入力に変換
 	findAlgorithmCode, err := NewFindAlgorithmCodeFromDto(input)
 	if err != nil {
@@ -155,6 +152,30 @@ func (r *queryResolver) AlgorithmCodes(ctx context.Context, input api.FindAlgori
 	}
 
 	return algorithmCodeDtos, nil
+}
+
+// LanguageCodes is the resolver for the languageCodes field.
+func (r *queryResolver) LanguageCodes(ctx context.Context, input api.FindLanguageCode) ([]*api.LanguageCode, error) {
+	// 入力をrepositoryへの入力に変換
+	findLanguageCode, err := NewFindLanguageCodeFromDto(input)
+	if err != nil {
+		return nil, err
+	}
+
+	// LanguageCodeを取得
+	languageCodes, err := r.Lgcr.ReadLanguageCode(*findLanguageCode)
+	if err != nil {
+		return nil, err
+	}
+
+	// repositoryの戻り値をレスポンスに変換
+	languageCodeDtos := []*api.LanguageCode{}
+	for _, languageCode := range languageCodes {
+		languageCodeDto := NewLanguageCodeDto(languageCode)
+		languageCodeDtos = append(languageCodeDtos, &languageCodeDto)
+	}
+
+	return languageCodeDtos, nil
 }
 
 // Query returns api.QueryResolver implementation.

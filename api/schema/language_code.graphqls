@@ -1,19 +1,19 @@
 # ----------------------------------------------------------------
-# ProgramCode
+# LanguageCode
 # ----------------------------------------------------------------
 # ----------------------------------------------------------------
 # GET
 # ----------------------------------------------------------------
-type ProgramCode {
-  programCodeId: String!
+type LanguageCode {
+  languageCodeId: String!
   content: String!
   nrow: Int!
   createdAt: Time!
-  toolId: String!
+  languageId: String!
 }
 
-input FindProgramCode {
-  toolId: String!
+input FindLanguageCode {
+  languageId: String!
   startRow: Int
   endRow: Int
   offset: Int
@@ -23,7 +23,7 @@ input FindProgramCode {
 # ----------------------------------------------------------------
 # POST
 # ----------------------------------------------------------------
-input NewProgramCode {
-  toolId: String!
+input NewLanguageCode {
+  languageId: String!
   content: String!
 }
