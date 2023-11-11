@@ -64,15 +64,32 @@ type ComplexityRoot struct {
 		Name        func(childComplexity int) int
 	}
 
+	FrameworkCode struct {
+		Content         func(childComplexity int) int
+		CreatedAt       func(childComplexity int) int
+		FrameworkCodeID func(childComplexity int) int
+		Nrow            func(childComplexity int) int
+		ToolID          func(childComplexity int) int
+	}
+
 	Language struct {
 		LanguageID func(childComplexity int) int
 		Name       func(childComplexity int) int
 	}
 
+	LanguageCode struct {
+		Content        func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		LanguageCodeID func(childComplexity int) int
+		LanguageID     func(childComplexity int) int
+		Nrow           func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateAlgorithmCode func(childComplexity int, input NewAlgorithmCode) int
+		CreateFrameworkCode func(childComplexity int, input NewFrameworkCode) int
+		CreateLanguageCode  func(childComplexity int, input NewLanguageCode) int
 		CreatePatternCode   func(childComplexity int, input NewPatternCode) int
-		CreateProgramCode   func(childComplexity int, input NewProgramCode) int
 	}
 
 	Pattern struct {
@@ -89,38 +106,33 @@ type ComplexityRoot struct {
 		PatternID     func(childComplexity int) int
 	}
 
-	ProgramCode struct {
-		Content       func(childComplexity int) int
-		CreatedAt     func(childComplexity int) int
-		Nrow          func(childComplexity int) int
-		ProgramCodeID func(childComplexity int) int
-		ToolID        func(childComplexity int) int
-	}
-
 	Query struct {
 		AlgorithmCodes func(childComplexity int, input FindAlgorithmCode) int
 		Algorithms     func(childComplexity int) int
+		FrameworkCodes func(childComplexity int, input FindFrameworkCode) int
 		Frameworks     func(childComplexity int) int
+		LanguageCodes  func(childComplexity int, input FindLanguageCode) int
 		Languages      func(childComplexity int) int
 		PatternCodes   func(childComplexity int, input FindPatternCode) int
 		Patterns       func(childComplexity int) int
-		ProgramCodes   func(childComplexity int, input FindProgramCode) int
 	}
 }
 
 type MutationResolver interface {
-	CreateProgramCode(ctx context.Context, input NewProgramCode) (string, error)
+	CreateFrameworkCode(ctx context.Context, input NewFrameworkCode) (string, error)
 	CreatePatternCode(ctx context.Context, input NewPatternCode) (string, error)
 	CreateAlgorithmCode(ctx context.Context, input NewAlgorithmCode) (string, error)
+	CreateLanguageCode(ctx context.Context, input NewLanguageCode) (string, error)
 }
 type QueryResolver interface {
 	Languages(ctx context.Context) ([]*Language, error)
 	Frameworks(ctx context.Context) ([]*Framework, error)
 	Algorithms(ctx context.Context) ([]*Algorithm, error)
 	Patterns(ctx context.Context) ([]*Pattern, error)
-	ProgramCodes(ctx context.Context, input FindProgramCode) ([]*ProgramCode, error)
+	FrameworkCodes(ctx context.Context, input FindFrameworkCode) ([]*FrameworkCode, error)
 	PatternCodes(ctx context.Context, input FindPatternCode) ([]*PatternCode, error)
 	AlgorithmCodes(ctx context.Context, input FindAlgorithmCode) ([]*AlgorithmCode, error)
+	LanguageCodes(ctx context.Context, input FindLanguageCode) ([]*LanguageCode, error)
 }
 
 type executableSchema struct {
@@ -208,6 +220,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Framework.Name(childComplexity), true
 
+	case "FrameworkCode.content":
+		if e.complexity.FrameworkCode.Content == nil {
+			break
+		}
+
+		return e.complexity.FrameworkCode.Content(childComplexity), true
+
+	case "FrameworkCode.createdAt":
+		if e.complexity.FrameworkCode.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.FrameworkCode.CreatedAt(childComplexity), true
+
+	case "FrameworkCode.frameworkCodeId":
+		if e.complexity.FrameworkCode.FrameworkCodeID == nil {
+			break
+		}
+
+		return e.complexity.FrameworkCode.FrameworkCodeID(childComplexity), true
+
+	case "FrameworkCode.nrow":
+		if e.complexity.FrameworkCode.Nrow == nil {
+			break
+		}
+
+		return e.complexity.FrameworkCode.Nrow(childComplexity), true
+
+	case "FrameworkCode.toolId":
+		if e.complexity.FrameworkCode.ToolID == nil {
+			break
+		}
+
+		return e.complexity.FrameworkCode.ToolID(childComplexity), true
+
 	case "Language.languageId":
 		if e.complexity.Language.LanguageID == nil {
 			break
@@ -222,6 +269,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Language.Name(childComplexity), true
 
+	case "LanguageCode.content":
+		if e.complexity.LanguageCode.Content == nil {
+			break
+		}
+
+		return e.complexity.LanguageCode.Content(childComplexity), true
+
+	case "LanguageCode.createdAt":
+		if e.complexity.LanguageCode.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.LanguageCode.CreatedAt(childComplexity), true
+
+	case "LanguageCode.languageCodeId":
+		if e.complexity.LanguageCode.LanguageCodeID == nil {
+			break
+		}
+
+		return e.complexity.LanguageCode.LanguageCodeID(childComplexity), true
+
+	case "LanguageCode.languageId":
+		if e.complexity.LanguageCode.LanguageID == nil {
+			break
+		}
+
+		return e.complexity.LanguageCode.LanguageID(childComplexity), true
+
+	case "LanguageCode.nrow":
+		if e.complexity.LanguageCode.Nrow == nil {
+			break
+		}
+
+		return e.complexity.LanguageCode.Nrow(childComplexity), true
+
 	case "Mutation.createAlgorithmCode":
 		if e.complexity.Mutation.CreateAlgorithmCode == nil {
 			break
@@ -234,6 +316,30 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateAlgorithmCode(childComplexity, args["input"].(NewAlgorithmCode)), true
 
+	case "Mutation.createFrameworkCode":
+		if e.complexity.Mutation.CreateFrameworkCode == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createFrameworkCode_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateFrameworkCode(childComplexity, args["input"].(NewFrameworkCode)), true
+
+	case "Mutation.createLanguageCode":
+		if e.complexity.Mutation.CreateLanguageCode == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createLanguageCode_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateLanguageCode(childComplexity, args["input"].(NewLanguageCode)), true
+
 	case "Mutation.createPatternCode":
 		if e.complexity.Mutation.CreatePatternCode == nil {
 			break
@@ -245,18 +351,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.CreatePatternCode(childComplexity, args["input"].(NewPatternCode)), true
-
-	case "Mutation.createProgramCode":
-		if e.complexity.Mutation.CreateProgramCode == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createProgramCode_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateProgramCode(childComplexity, args["input"].(NewProgramCode)), true
 
 	case "Pattern.name":
 		if e.complexity.Pattern.Name == nil {
@@ -314,41 +408,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PatternCode.PatternID(childComplexity), true
 
-	case "ProgramCode.content":
-		if e.complexity.ProgramCode.Content == nil {
-			break
-		}
-
-		return e.complexity.ProgramCode.Content(childComplexity), true
-
-	case "ProgramCode.createdAt":
-		if e.complexity.ProgramCode.CreatedAt == nil {
-			break
-		}
-
-		return e.complexity.ProgramCode.CreatedAt(childComplexity), true
-
-	case "ProgramCode.nrow":
-		if e.complexity.ProgramCode.Nrow == nil {
-			break
-		}
-
-		return e.complexity.ProgramCode.Nrow(childComplexity), true
-
-	case "ProgramCode.programCodeId":
-		if e.complexity.ProgramCode.ProgramCodeID == nil {
-			break
-		}
-
-		return e.complexity.ProgramCode.ProgramCodeID(childComplexity), true
-
-	case "ProgramCode.toolId":
-		if e.complexity.ProgramCode.ToolID == nil {
-			break
-		}
-
-		return e.complexity.ProgramCode.ToolID(childComplexity), true
-
 	case "Query.algorithmCodes":
 		if e.complexity.Query.AlgorithmCodes == nil {
 			break
@@ -368,12 +427,36 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Algorithms(childComplexity), true
 
+	case "Query.frameworkCodes":
+		if e.complexity.Query.FrameworkCodes == nil {
+			break
+		}
+
+		args, err := ec.field_Query_frameworkCodes_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.FrameworkCodes(childComplexity, args["input"].(FindFrameworkCode)), true
+
 	case "Query.frameworks":
 		if e.complexity.Query.Frameworks == nil {
 			break
 		}
 
 		return e.complexity.Query.Frameworks(childComplexity), true
+
+	case "Query.languageCodes":
+		if e.complexity.Query.LanguageCodes == nil {
+			break
+		}
+
+		args, err := ec.field_Query_languageCodes_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.LanguageCodes(childComplexity, args["input"].(FindLanguageCode)), true
 
 	case "Query.languages":
 		if e.complexity.Query.Languages == nil {
@@ -401,18 +484,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Patterns(childComplexity), true
 
-	case "Query.programCodes":
-		if e.complexity.Query.ProgramCodes == nil {
-			break
-		}
-
-		args, err := ec.field_Query_programCodes_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.ProgramCodes(childComplexity, args["input"].(FindProgramCode)), true
-
 	}
 	return 0, false
 }
@@ -422,11 +493,13 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputFindAlgorithmCode,
+		ec.unmarshalInputFindFrameworkCode,
+		ec.unmarshalInputFindLanguageCode,
 		ec.unmarshalInputFindPatternCode,
-		ec.unmarshalInputFindProgramCode,
 		ec.unmarshalInputNewAlgorithmCode,
+		ec.unmarshalInputNewFrameworkCode,
+		ec.unmarshalInputNewLanguageCode,
 		ec.unmarshalInputNewPatternCode,
-		ec.unmarshalInputNewProgramCode,
 	)
 	first := true
 
@@ -523,7 +596,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "schema/algorithm_code.graphqls" "schema/master.graphqls" "schema/mutation.graphqls" "schema/pattern_code.graphqls" "schema/program_code.graphqls" "schema/query.graphqls"
+//go:embed "schema/algorithm_code.graphqls" "schema/framework_code.graphqls" "schema/language_code.graphqls" "schema/master.graphqls" "schema/mutation.graphqls" "schema/pattern_code.graphqls" "schema/query.graphqls"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -536,10 +609,11 @@ func sourceData(filename string) string {
 
 var sources = []*ast.Source{
 	{Name: "schema/algorithm_code.graphqls", Input: sourceData("schema/algorithm_code.graphqls"), BuiltIn: false},
+	{Name: "schema/framework_code.graphqls", Input: sourceData("schema/framework_code.graphqls"), BuiltIn: false},
+	{Name: "schema/language_code.graphqls", Input: sourceData("schema/language_code.graphqls"), BuiltIn: false},
 	{Name: "schema/master.graphqls", Input: sourceData("schema/master.graphqls"), BuiltIn: false},
 	{Name: "schema/mutation.graphqls", Input: sourceData("schema/mutation.graphqls"), BuiltIn: false},
 	{Name: "schema/pattern_code.graphqls", Input: sourceData("schema/pattern_code.graphqls"), BuiltIn: false},
-	{Name: "schema/program_code.graphqls", Input: sourceData("schema/program_code.graphqls"), BuiltIn: false},
 	{Name: "schema/query.graphqls", Input: sourceData("schema/query.graphqls"), BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -563,13 +637,13 @@ func (ec *executionContext) field_Mutation_createAlgorithmCode_args(ctx context.
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createPatternCode_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createFrameworkCode_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 NewPatternCode
+	var arg0 NewFrameworkCode
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewPatternCode(ctx, tmp)
+		arg0, err = ec.unmarshalNNewFrameworkCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewFrameworkCode(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -578,13 +652,28 @@ func (ec *executionContext) field_Mutation_createPatternCode_args(ctx context.Co
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createProgramCode_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createLanguageCode_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 NewProgramCode
+	var arg0 NewLanguageCode
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewProgramCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewProgramCode(ctx, tmp)
+		arg0, err = ec.unmarshalNNewLanguageCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewLanguageCode(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createPatternCode_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 NewPatternCode
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNNewPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewPatternCode(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -623,13 +712,13 @@ func (ec *executionContext) field_Query_algorithmCodes_args(ctx context.Context,
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_patternCodes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_frameworkCodes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 FindPatternCode
+	var arg0 FindFrameworkCode
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNFindPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindPatternCode(ctx, tmp)
+		arg0, err = ec.unmarshalNFindFrameworkCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindFrameworkCode(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -638,13 +727,28 @@ func (ec *executionContext) field_Query_patternCodes_args(ctx context.Context, r
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_programCodes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_languageCodes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 FindProgramCode
+	var arg0 FindLanguageCode
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNFindProgramCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindProgramCode(ctx, tmp)
+		arg0, err = ec.unmarshalNFindLanguageCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindLanguageCode(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_patternCodes_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 FindPatternCode
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNFindPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindPatternCode(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1131,6 +1235,226 @@ func (ec *executionContext) fieldContext_Framework_name(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _FrameworkCode_frameworkCodeId(ctx context.Context, field graphql.CollectedField, obj *FrameworkCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameworkCode_frameworkCodeId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FrameworkCodeID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameworkCode_frameworkCodeId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameworkCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameworkCode_content(ctx context.Context, field graphql.CollectedField, obj *FrameworkCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameworkCode_content(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Content, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameworkCode_content(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameworkCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameworkCode_nrow(ctx context.Context, field graphql.CollectedField, obj *FrameworkCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameworkCode_nrow(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Nrow, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameworkCode_nrow(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameworkCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameworkCode_createdAt(ctx context.Context, field graphql.CollectedField, obj *FrameworkCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameworkCode_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameworkCode_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameworkCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FrameworkCode_toolId(ctx context.Context, field graphql.CollectedField, obj *FrameworkCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FrameworkCode_toolId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ToolID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FrameworkCode_toolId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FrameworkCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Language_languageId(ctx context.Context, field graphql.CollectedField, obj *Language) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Language_languageId(ctx, field)
 	if err != nil {
@@ -1219,8 +1543,8 @@ func (ec *executionContext) fieldContext_Language_name(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createProgramCode(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createProgramCode(ctx, field)
+func (ec *executionContext) _LanguageCode_languageCodeId(ctx context.Context, field graphql.CollectedField, obj *LanguageCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LanguageCode_languageCodeId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1233,7 +1557,7 @@ func (ec *executionContext) _Mutation_createProgramCode(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateProgramCode(rctx, fc.Args["input"].(NewProgramCode))
+		return obj.LanguageCodeID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1250,7 +1574,227 @@ func (ec *executionContext) _Mutation_createProgramCode(ctx context.Context, fie
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_createProgramCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_LanguageCode_languageCodeId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LanguageCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LanguageCode_content(ctx context.Context, field graphql.CollectedField, obj *LanguageCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LanguageCode_content(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Content, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LanguageCode_content(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LanguageCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LanguageCode_nrow(ctx context.Context, field graphql.CollectedField, obj *LanguageCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LanguageCode_nrow(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Nrow, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LanguageCode_nrow(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LanguageCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LanguageCode_createdAt(ctx context.Context, field graphql.CollectedField, obj *LanguageCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LanguageCode_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LanguageCode_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LanguageCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LanguageCode_languageId(ctx context.Context, field graphql.CollectedField, obj *LanguageCode) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LanguageCode_languageId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LanguageID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LanguageCode_languageId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LanguageCode",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createFrameworkCode(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createFrameworkCode(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFrameworkCode(rctx, fc.Args["input"].(NewFrameworkCode))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createFrameworkCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -1267,7 +1811,7 @@ func (ec *executionContext) fieldContext_Mutation_createProgramCode(ctx context.
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createProgramCode_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createFrameworkCode_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -1378,6 +1922,61 @@ func (ec *executionContext) fieldContext_Mutation_createAlgorithmCode(ctx contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createAlgorithmCode_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createLanguageCode(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createLanguageCode(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateLanguageCode(rctx, fc.Args["input"].(NewLanguageCode))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createLanguageCode(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createLanguageCode_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -1736,226 +2335,6 @@ func (ec *executionContext) fieldContext_PatternCode_patternId(ctx context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _ProgramCode_programCodeId(ctx context.Context, field graphql.CollectedField, obj *ProgramCode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProgramCode_programCodeId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ProgramCodeID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProgramCode_programCodeId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProgramCode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProgramCode_content(ctx context.Context, field graphql.CollectedField, obj *ProgramCode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProgramCode_content(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Content, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProgramCode_content(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProgramCode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProgramCode_nrow(ctx context.Context, field graphql.CollectedField, obj *ProgramCode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProgramCode_nrow(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Nrow, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProgramCode_nrow(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProgramCode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProgramCode_createdAt(ctx context.Context, field graphql.CollectedField, obj *ProgramCode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProgramCode_createdAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProgramCode_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProgramCode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProgramCode_toolId(ctx context.Context, field graphql.CollectedField, obj *ProgramCode) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProgramCode_toolId(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ToolID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProgramCode_toolId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProgramCode",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Query_languages(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_languages(ctx, field)
 	if err != nil {
@@ -2156,8 +2535,8 @@ func (ec *executionContext) fieldContext_Query_patterns(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_programCodes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_programCodes(ctx, field)
+func (ec *executionContext) _Query_frameworkCodes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_frameworkCodes(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2170,7 +2549,7 @@ func (ec *executionContext) _Query_programCodes(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().ProgramCodes(rctx, fc.Args["input"].(FindProgramCode))
+		return ec.resolvers.Query().FrameworkCodes(rctx, fc.Args["input"].(FindFrameworkCode))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2182,12 +2561,12 @@ func (ec *executionContext) _Query_programCodes(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*ProgramCode)
+	res := resTmp.([]*FrameworkCode)
 	fc.Result = res
-	return ec.marshalNProgramCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐProgramCodeᚄ(ctx, field.Selections, res)
+	return ec.marshalNFrameworkCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFrameworkCodeᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_programCodes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_frameworkCodes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -2195,18 +2574,18 @@ func (ec *executionContext) fieldContext_Query_programCodes(ctx context.Context,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "programCodeId":
-				return ec.fieldContext_ProgramCode_programCodeId(ctx, field)
+			case "frameworkCodeId":
+				return ec.fieldContext_FrameworkCode_frameworkCodeId(ctx, field)
 			case "content":
-				return ec.fieldContext_ProgramCode_content(ctx, field)
+				return ec.fieldContext_FrameworkCode_content(ctx, field)
 			case "nrow":
-				return ec.fieldContext_ProgramCode_nrow(ctx, field)
+				return ec.fieldContext_FrameworkCode_nrow(ctx, field)
 			case "createdAt":
-				return ec.fieldContext_ProgramCode_createdAt(ctx, field)
+				return ec.fieldContext_FrameworkCode_createdAt(ctx, field)
 			case "toolId":
-				return ec.fieldContext_ProgramCode_toolId(ctx, field)
+				return ec.fieldContext_FrameworkCode_toolId(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type ProgramCode", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type FrameworkCode", field.Name)
 		},
 	}
 	defer func() {
@@ -2216,7 +2595,7 @@ func (ec *executionContext) fieldContext_Query_programCodes(ctx context.Context,
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_programCodes_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_frameworkCodes_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2355,6 +2734,73 @@ func (ec *executionContext) fieldContext_Query_algorithmCodes(ctx context.Contex
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Query_algorithmCodes_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_languageCodes(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_languageCodes(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().LanguageCodes(rctx, fc.Args["input"].(FindLanguageCode))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*LanguageCode)
+	fc.Result = res
+	return ec.marshalNLanguageCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐLanguageCodeᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_languageCodes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "languageCodeId":
+				return ec.fieldContext_LanguageCode_languageCodeId(ctx, field)
+			case "content":
+				return ec.fieldContext_LanguageCode_content(ctx, field)
+			case "nrow":
+				return ec.fieldContext_LanguageCode_nrow(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_LanguageCode_createdAt(ctx, field)
+			case "languageId":
+				return ec.fieldContext_LanguageCode_languageId(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LanguageCode", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_languageCodes_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -4337,38 +4783,29 @@ func (ec *executionContext) unmarshalInputFindAlgorithmCode(ctx context.Context,
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputFindPatternCode(ctx context.Context, obj interface{}) (FindPatternCode, error) {
-	var it FindPatternCode
+func (ec *executionContext) unmarshalInputFindFrameworkCode(ctx context.Context, obj interface{}) (FindFrameworkCode, error) {
+	var it FindFrameworkCode
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"languageId", "patternId", "startRow", "endRow", "offset", "limit"}
+	fieldsInOrder := [...]string{"toolId", "startRow", "endRow", "offset", "limit"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "languageId":
+		case "toolId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("languageId"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("toolId"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.LanguageID = data
-		case "patternId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("patternId"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.PatternID = data
+			it.ToolID = data
 		case "startRow":
 			var err error
 
@@ -4411,29 +4848,103 @@ func (ec *executionContext) unmarshalInputFindPatternCode(ctx context.Context, o
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputFindProgramCode(ctx context.Context, obj interface{}) (FindProgramCode, error) {
-	var it FindProgramCode
+func (ec *executionContext) unmarshalInputFindLanguageCode(ctx context.Context, obj interface{}) (FindLanguageCode, error) {
+	var it FindLanguageCode
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"toolId", "startRow", "endRow", "offset", "limit"}
+	fieldsInOrder := [...]string{"languageId", "startRow", "endRow", "offset", "limit"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "toolId":
+		case "languageId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("toolId"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("languageId"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.ToolID = data
+			it.LanguageID = data
+		case "startRow":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startRow"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.StartRow = data
+		case "endRow":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endRow"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.EndRow = data
+		case "offset":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Offset = data
+		case "limit":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Limit = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputFindPatternCode(ctx context.Context, obj interface{}) (FindPatternCode, error) {
+	var it FindPatternCode
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"languageId", "patternId", "startRow", "endRow", "offset", "limit"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "languageId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("languageId"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LanguageID = data
+		case "patternId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("patternId"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.PatternID = data
 		case "startRow":
 			var err error
 
@@ -4523,6 +5034,82 @@ func (ec *executionContext) unmarshalInputNewAlgorithmCode(ctx context.Context, 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputNewFrameworkCode(ctx context.Context, obj interface{}) (NewFrameworkCode, error) {
+	var it NewFrameworkCode
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"toolId", "content"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "toolId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("toolId"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ToolID = data
+		case "content":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Content = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewLanguageCode(ctx context.Context, obj interface{}) (NewLanguageCode, error) {
+	var it NewLanguageCode
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"languageId", "content"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "languageId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("languageId"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.LanguageID = data
+		case "content":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Content = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputNewPatternCode(ctx context.Context, obj interface{}) (NewPatternCode, error) {
 	var it NewPatternCode
 	asMap := map[string]interface{}{}
@@ -4555,44 +5142,6 @@ func (ec *executionContext) unmarshalInputNewPatternCode(ctx context.Context, ob
 				return it, err
 			}
 			it.PatternID = data
-		case "content":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("content"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Content = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputNewProgramCode(ctx context.Context, obj interface{}) (NewProgramCode, error) {
-	var it NewProgramCode
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"toolId", "content"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "toolId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("toolId"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ToolID = data
 		case "content":
 			var err error
 
@@ -4768,6 +5317,65 @@ func (ec *executionContext) _Framework(ctx context.Context, sel ast.SelectionSet
 	return out
 }
 
+var frameworkCodeImplementors = []string{"FrameworkCode"}
+
+func (ec *executionContext) _FrameworkCode(ctx context.Context, sel ast.SelectionSet, obj *FrameworkCode) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, frameworkCodeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FrameworkCode")
+		case "frameworkCodeId":
+			out.Values[i] = ec._FrameworkCode_frameworkCodeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "content":
+			out.Values[i] = ec._FrameworkCode_content(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "nrow":
+			out.Values[i] = ec._FrameworkCode_nrow(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._FrameworkCode_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "toolId":
+			out.Values[i] = ec._FrameworkCode_toolId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var languageImplementors = []string{"Language"}
 
 func (ec *executionContext) _Language(ctx context.Context, sel ast.SelectionSet, obj *Language) graphql.Marshaler {
@@ -4786,6 +5394,65 @@ func (ec *executionContext) _Language(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "name":
 			out.Values[i] = ec._Language_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var languageCodeImplementors = []string{"LanguageCode"}
+
+func (ec *executionContext) _LanguageCode(ctx context.Context, sel ast.SelectionSet, obj *LanguageCode) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, languageCodeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LanguageCode")
+		case "languageCodeId":
+			out.Values[i] = ec._LanguageCode_languageCodeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "content":
+			out.Values[i] = ec._LanguageCode_content(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "nrow":
+			out.Values[i] = ec._LanguageCode_nrow(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._LanguageCode_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "languageId":
+			out.Values[i] = ec._LanguageCode_languageId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -4831,9 +5498,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createProgramCode":
+		case "createFrameworkCode":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createProgramCode(ctx, field)
+				return ec._Mutation_createFrameworkCode(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -4848,6 +5515,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createAlgorithmCode":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createAlgorithmCode(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createLanguageCode":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createLanguageCode(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -4983,65 +5657,6 @@ func (ec *executionContext) _PatternCode(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
-var programCodeImplementors = []string{"ProgramCode"}
-
-func (ec *executionContext) _ProgramCode(ctx context.Context, sel ast.SelectionSet, obj *ProgramCode) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, programCodeImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("ProgramCode")
-		case "programCodeId":
-			out.Values[i] = ec._ProgramCode_programCodeId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "content":
-			out.Values[i] = ec._ProgramCode_content(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "nrow":
-			out.Values[i] = ec._ProgramCode_nrow(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createdAt":
-			out.Values[i] = ec._ProgramCode_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "toolId":
-			out.Values[i] = ec._ProgramCode_toolId(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var queryImplementors = []string{"Query"}
 
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -5149,7 +5764,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "programCodes":
+		case "frameworkCodes":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -5158,7 +5773,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_programCodes(ctx, field)
+				res = ec._Query_frameworkCodes(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -5203,6 +5818,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_algorithmCodes(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "languageCodes":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_languageCodes(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -5700,13 +6337,18 @@ func (ec *executionContext) unmarshalNFindAlgorithmCode2githubᚗcomᚋtf63ᚋco
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNFindPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindPatternCode(ctx context.Context, v interface{}) (FindPatternCode, error) {
-	res, err := ec.unmarshalInputFindPatternCode(ctx, v)
+func (ec *executionContext) unmarshalNFindFrameworkCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindFrameworkCode(ctx context.Context, v interface{}) (FindFrameworkCode, error) {
+	res, err := ec.unmarshalInputFindFrameworkCode(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNFindProgramCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindProgramCode(ctx context.Context, v interface{}) (FindProgramCode, error) {
-	res, err := ec.unmarshalInputFindProgramCode(ctx, v)
+func (ec *executionContext) unmarshalNFindLanguageCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindLanguageCode(ctx context.Context, v interface{}) (FindLanguageCode, error) {
+	res, err := ec.unmarshalInputFindLanguageCode(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNFindPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFindPatternCode(ctx context.Context, v interface{}) (FindPatternCode, error) {
+	res, err := ec.unmarshalInputFindPatternCode(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -5762,6 +6404,60 @@ func (ec *executionContext) marshalNFramework2ᚖgithubᚗcomᚋtf63ᚋcodeᚑap
 		return graphql.Null
 	}
 	return ec._Framework(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNFrameworkCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFrameworkCodeᚄ(ctx context.Context, sel ast.SelectionSet, v []*FrameworkCode) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFrameworkCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFrameworkCode(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNFrameworkCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐFrameworkCode(ctx context.Context, sel ast.SelectionSet, v *FrameworkCode) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._FrameworkCode(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
@@ -5833,18 +6529,77 @@ func (ec *executionContext) marshalNLanguage2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapi
 	return ec._Language(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNLanguageCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐLanguageCodeᚄ(ctx context.Context, sel ast.SelectionSet, v []*LanguageCode) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNLanguageCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐLanguageCode(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNLanguageCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐLanguageCode(ctx context.Context, sel ast.SelectionSet, v *LanguageCode) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._LanguageCode(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNNewAlgorithmCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewAlgorithmCode(ctx context.Context, v interface{}) (NewAlgorithmCode, error) {
 	res, err := ec.unmarshalInputNewAlgorithmCode(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewPatternCode(ctx context.Context, v interface{}) (NewPatternCode, error) {
-	res, err := ec.unmarshalInputNewPatternCode(ctx, v)
+func (ec *executionContext) unmarshalNNewFrameworkCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewFrameworkCode(ctx context.Context, v interface{}) (NewFrameworkCode, error) {
+	res, err := ec.unmarshalInputNewFrameworkCode(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewProgramCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewProgramCode(ctx context.Context, v interface{}) (NewProgramCode, error) {
-	res, err := ec.unmarshalInputNewProgramCode(ctx, v)
+func (ec *executionContext) unmarshalNNewLanguageCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewLanguageCode(ctx context.Context, v interface{}) (NewLanguageCode, error) {
+	res, err := ec.unmarshalInputNewLanguageCode(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewPatternCode2githubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐNewPatternCode(ctx context.Context, v interface{}) (NewPatternCode, error) {
+	res, err := ec.unmarshalInputNewPatternCode(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -5954,60 +6709,6 @@ func (ec *executionContext) marshalNPatternCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑ
 		return graphql.Null
 	}
 	return ec._PatternCode(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNProgramCode2ᚕᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐProgramCodeᚄ(ctx context.Context, sel ast.SelectionSet, v []*ProgramCode) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNProgramCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐProgramCode(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNProgramCode2ᚖgithubᚗcomᚋtf63ᚋcodeᚑapiᚋapiᚐProgramCode(ctx context.Context, sel ast.SelectionSet, v *ProgramCode) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._ProgramCode(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

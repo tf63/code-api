@@ -1,0 +1,29 @@
+# ----------------------------------------------------------------
+# FrameworkCode
+# ----------------------------------------------------------------
+# ----------------------------------------------------------------
+# GET
+# ----------------------------------------------------------------
+type FrameworkCode {
+  frameworkCodeId: String!
+  content: String!
+  nrow: Int!
+  createdAt: Time!
+  toolId: String!
+}
+
+input FindFrameworkCode {
+  toolId: String!
+  startRow: Int
+  endRow: Int
+  offset: Int
+  limit: Int
+}
+
+# ----------------------------------------------------------------
+# POST
+# ----------------------------------------------------------------
+input NewFrameworkCode {
+  toolId: String!
+  content: String!
+}
