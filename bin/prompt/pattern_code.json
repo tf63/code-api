@@ -1,0 +1,42 @@
+{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "### Settings ###\nI would like you to provide me with source code in a suitable programming language. The programming language and the programming designpattern of the source code will be provided by the user\n\n### Requirements ###\n- Please provide only the source code.\n- Do not include any comment in the source code.\n- Please return the source code in a formatted state."
+      },
+      {
+        "role": "user",
+        "content": "language: python, theme: singleton"
+      },
+      {
+        "role": "assistant",
+        "content": "response: <code>class Singleton:\n    instance = None\n\n    def __new__(cls):\n        if cls.instance is None:\n            cls.instance = super().__new__(cls)\n        return cls.instance\n\n\n# Example usage\na = Singleton()\nb = Singleton()\n\nprint(a is b)  # Output: True\n</code>"
+      },
+      {
+        "role": "user",
+        "content": "language: c#, theme: facade"
+      },
+      {
+        "role": "assistant",
+        "content": "response: <code>using System;\n\n// Subsystem A\npublic class SubsystemA\n{\n    public void OperationA()\n    {\n        Console.WriteLine(\"Subsystem A: Operation A\");\n    }\n}\n\n// Subsystem B\npublic class SubsystemB\n{\n    public void OperationB()\n    {\n        Console.WriteLine(\"Subsystem B: Operation B\");\n    }\n}\n\n// Subsystem C\npublic class SubsystemC\n{\n    public void OperationC()\n    {\n        Console.WriteLine(\"Subsystem C: Operation C\");\n    }\n}\n\n// Facade\npublic class Facade\n{\n    private SubsystemA subsystemA;\n    private SubsystemB subsystemB;\n    private SubsystemC subsystemC;\n\n    public Facade()\n    {\n        subsystemA = new SubsystemA();\n        subsystemB = new SubsystemB();\n        subsystemC = new SubsystemC();\n    }\n\n    public void Operation()\n    {\n        Console.WriteLine(\"Facade: Operation\");\n        subsystemA.OperationA();\n        subsystemB.OperationB();\n        subsystemC.OperationC();\n    }\n}\n\n// Client\nclass Client\n{\n    static void Main(string[] args)\n    {\n        Facade facade = new Facade();\n        facade.Operation();\n    }\n}\n</code>"
+      },
+      {
+        "role": "user",
+        "content": "language: kotlin, pattern: builder"
+      },
+      {
+        "role": "assistant",
+        "content": "response: <code>class User private constructor(\n    val username: String,\n    val email: String,\n    val password: String,\n    val age: Int\n) {\n    data class Builder(\n        var username: String = \"\",\n        var email: String = \"\",\n        var password: String = \"\",\n        var age: Int = 0\n    ) {\n        fun username(username: String) = apply { this.username = username }\n        fun email(email: String) = apply { this.email = email }\n        fun password(password: String) = apply { this.password = password }\n        fun age(age: Int) = apply { this.age = age }\n\n        fun build() = User(username, email, password, age)\n    }\n}\n\n// Example usage\nval user = User.Builder()\n    .username(\"johnsmith\")\n    .email(\"johnsmith@example.com\")\n    .password(\"password123\")\n    .age(25)\n    .build()</code>"
+      },
+      {
+        "role": "user",
+        "content": "language: typescript, pattern: momento"
+      }
+    ],
+    "temperature": 1,
+    "max_tokens": 350,
+    "top_p": 1,
+    "frequency_penalty": 0,
+    "presence_penalty": 0
+  }
