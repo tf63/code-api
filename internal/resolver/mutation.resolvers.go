@@ -11,9 +11,9 @@ import (
 	"github.com/tf63/code-api/api"
 )
 
-// CreateProgramCode is the resolver for the createProgramCode field.
-func (r *mutationResolver) CreateProgramCode(ctx context.Context, input api.NewProgramCode) (string, error) {
-	panic(fmt.Errorf("not implemented: CreateProgramCode - createProgramCode"))
+// CreateFrameworkCode is the resolver for the createFrameworkCode field.
+func (r *mutationResolver) CreateFrameworkCode(ctx context.Context, input api.NewFrameworkCode) (string, error) {
+	panic(fmt.Errorf("not implemented: CreateFrameworkCode - createFrameworkCode"))
 }
 
 // CreatePatternCode is the resolver for the createPatternCode field.
@@ -24,6 +24,11 @@ func (r *mutationResolver) CreatePatternCode(ctx context.Context, input api.NewP
 // CreateAlgorithmCode is the resolver for the createAlgorithmCode field.
 func (r *mutationResolver) CreateAlgorithmCode(ctx context.Context, input api.NewAlgorithmCode) (string, error) {
 	panic(fmt.Errorf("not implemented: CreateAlgorithmCode - createAlgorithmCode"))
+}
+
+// CreateLanguageCode is the resolver for the createLanguageCode field.
+func (r *mutationResolver) CreateLanguageCode(ctx context.Context, input api.NewLanguageCode) (string, error) {
+	panic(fmt.Errorf("not implemented: CreateLanguageCode - createLanguageCode"))
 }
 
 // Mutation returns api.MutationResolver implementation.

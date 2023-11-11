@@ -31,7 +31,8 @@ func main() {
 		log.Fatal("Failed to Connect Database")
 	}
 
-	pgcr := repository.NewProgramCodeRepository(db)
+	fwcr := repository.NewFrameworkCodeRepository(db)
+	lgcr := repository.NewLanguageCodeRepository(db)
 	ptcr := repository.NewPatternCodeRepository(db)
 	arcr := repository.NewAlgorithmCodeRepository(db)
 	lgr := repository.NewLanguageRepository(db, rdb)
@@ -39,7 +40,7 @@ func main() {
 	arr := repository.NewAlgorithmRepository(db, rdb)
 	ptr := repository.NewPatternRepository(db, rdb)
 
-	resolver := resolver.Resolver{Pgcr: pgcr, Ptcr: ptcr, Arcr: arcr,
+	resolver := resolver.Resolver{Fwcr: fwcr, Ptcr: ptcr, Arcr: arcr, Lgcr: lgcr,
 		Lgr: lgr, Fwr: fwr, Arr: arr, Ptr: ptr}
 	srv := handler.NewDefaultServer(api.NewExecutableSchema(api.Config{Resolvers: &resolver}))
 

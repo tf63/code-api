@@ -9,7 +9,8 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Pgcr repository.ProgramCodeRepository
+	Fwcr repository.FrameworkCodeRepository
+	Lgcr repository.LanguageCodeRepository
 	Ptcr repository.PatternCodeRepository
 	Arcr repository.AlgorithmCodeRepository
 	Lgr  repository.LanguageRepository
