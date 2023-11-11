@@ -1,0 +1,16 @@
+algorithm_id,name
+7,quick_sort
+3,dp
+8,merge_sort
+1,dfs
+13,queue
+9,selection_sort
+10,insertion_sort
+2,bfs
+11,heap_sort
+12,stack
+4,binary_search
+15,prime_factorization
+5,union_find
+14,gcd
+6,bubble_sort
