@@ -2,11 +2,15 @@
 .DS_Store
 
 # dir
+input/
 out/
+data/
 migrations/
 
 # env
+.env.local
 .env.prod
+chat.sh
 
 # ---------------------------------------------
 # Go (https://github.com/github/gitignore/blob/main/Go.gitignore)

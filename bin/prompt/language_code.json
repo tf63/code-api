@@ -1,0 +1,58 @@
+{
+  "model": "gpt-3.5-turbo",
+  "messages": [
+    {
+      "role": "system",
+      "content": "### Settings ###\nI would like you to provide me with source code in a suitable programming language. The programming language and the theme of the source code will be provided by the user\n\n### Requirements ###\n- Please provide only the source code.\n- Do not include any comment in the source code.\n- Please return the source code in a formatted state."
+    },
+    {
+      "role": "user",
+      "content": "language: python, theme: random"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>import random\n\ndef guessing_game():\n    guess_taken = 0\n    number = random.randint(1, 20)\n    print(\"I'm thinking of a number between 1 and 20. Can you guess it?\")\n\n    while True:\n        guess = int(input(\"Take a guess: \"))\n        guess_taken += 1\n\n        if guess < number:\n            print(\"Your guess is too low.\")\n        elif guess > number:\n            print(\"Your guess is too high.\")\n        else:\n            print(f\"Good job! You guessed the number in {guess_taken} tries.\")\n            break\n\n    play_again = input(\"Do you want to play again? (yes/no): \")\n    if play_again.lower() == \"yes\":\n        guessing_game()\n    else:\n        print(\"Thanks for playing!\")\n\nguessing_game()</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: python, theme: list"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>def list_operations():\n    my_list = [1, 2, 3, 4, 5]\n    print(f\"My list: {my_list}\")\n\n    my_list.append(6)\n    print(f\"After appending an element: {my_list}\")\n\n    my_list.remove(3)\n    print(f\"After removing an element: {my_list}\")\n\n    element = my_list[2]\n    print(f\"The element at index 2 is: {element}\")\n\n    if 5 in my_list:\n        print(\"5 is in the list\")\n    else:\n        print(\"5 is not in the list\")\n\n    my_list.sort()\n    print(f\"After sorting the list: {my_list}\")\n\n    my_list.reverse()\n    print(f\"After reversing the list: {my_list}\")\n\nlist_operations()</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: typescript, theme: hello world"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>console.log(\"Hello, World!\");</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: go, theme: payment"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>package main\n\nimport \"fmt\"\n\ntype Payment struct {\n    amount    float64\n    recipient string\n}\n\nfunc (p *Payment) Process() {\n    fmt.Printf(\"Processing payment of $%.2f to %s...\\n\", p.amount, p.recipient)\n    // Add your payment processing logic here\n    fmt.Println(\"Payment processed successfully!\")\n}\n\nfunc main() {\n    payment := Payment{\n        amount:    100.00,\n        recipient: \"John Doe\",\n    }\n\n    payment.Process()\n}</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: kotlin, theme: dictionary"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>fun main() {\n    val dictionary = mapOf(\n        \"apple\" to \"a round fruit with red or green skin and firm white flesh\",\n        \"banana\" to \"a long curved fruit with a yellow skin\",\n        \"carrot\" to \"a long, thin, orange vegetable\"\n    )\n\n    println(\"Dictionary:\")\n    for ((word, definition) in dictionary) {\n        println(\"$word: $definition\")\n    }\n\n    val word = \"apple\"\n    if (dictionary.containsKey(word)) {\n        val definition = dictionary[word]\n        println(\"Definition of $word: $definition\")\n    } else {\n        println(\"Word not found in the dictionary.\")\n    }\n}</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: python, theme: interface"
+    }
+  ],
+  "temperature": 1,
+  "max_tokens": 350,
+  "top_p": 1,
+  "frequency_penalty": 0,
+  "presence_penalty": 0
+}

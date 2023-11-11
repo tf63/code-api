@@ -1,0 +1,42 @@
+{
+  "model": "gpt-3.5-turbo",
+  "messages": [
+    {
+      "role": "system",
+      "content": "### Settings ###\nI would like you to provide me with source code in a suitable programming language. The programming language and the framework of the source code will be provided by the user\n\n### Requirements ###\n- Please provide only the source code.\n- Do not include any comment in the source code.\n- Please return the source code in a formatted state."
+    },
+    {
+      "role": "user",
+      "content": "language: python, framework: fastapi"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>from fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef read_root():\n    return {\"Hello\": \"World\"}\n\n@app.get(\"/items/{item_id}\")\ndef read_item(item_id: int, q: str = None):\n    return {\"item_id\": item_id, \"q\": q}\n\n@app.post(\"/items/\")\ndef create_item(item: Item):\n    return item</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: go, framework: gin"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>package main\n\nimport (\n    \"github.com/gin-gonic/gin\"\n    \"net/http\"\n)\n\ntype Person struct {\n    ID   string `json:\"id\"`\n    Name string `json:\"name\"`\n}\n\nvar people []Person\n\nfunc main() {\n    router := gin.Default()\n\n    router.GET(\"/people\", GetPeople)\n    router.GET(\"/people/:id\", GetPerson)\n    router.POST(\"/people\", AddPerson)\n\n    router.Run()\n}\n\nfunc GetPeople(c *gin.Context) {\n    c.JSON(http.StatusOK, people)\n}\n\nfunc GetPerson(c *gin.Context) {\n    id := c.Param(\"id\")\n    for _, person := range people {\n        if person.ID == id {\n            c.JSON(http.StatusOK, person)\n            return\n        }\n    }\n    c.JSON(http.StatusNotFound, gin.H{\"error\": \"Person not found\"})\n}\n\nfunc AddPerson(c *gin.Context) {\n    var person Person\n\n    if err := c.ShouldBindJSON(&person); err != nil {\n        c.JSON(http.StatusBadRequest, gin.H{\"error\": \"Invalid request payload\"})\n        return\n    }\n\n    people = append(people, person)\n    c.Status(http.StatusCreated)\n}</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: typescript, framework: next"
+    },
+    {
+      "role": "assistant",
+      "content": "response: <code>// pages/index.tsx\nimport { GetStaticProps, NextPage } from 'next';\n\ntype IndexProps = {\n  message: string;\n};\n\nconst Index: NextPage<IndexProps> = ({ message }) => {\n  return <div>{message}</div>;\n};\n\nexport const getStaticProps: GetStaticProps<IndexProps> = async () => {\n  return {\n    props: {\n      message: 'Hello World',\n    },\n  };\n};\n\nexport default Index;\n\n// next.config.js\nmodule.exports = {\n  reactStrictMode: true,\n};</code>"
+    },
+    {
+      "role": "user",
+      "content": "language: python, framework: opencv"
+    }
+  ],
+  "temperature": 1,
+  "max_tokens": 350,
+  "top_p": 1,
+  "frequency_penalty": 0,
+  "presence_penalty": 0
+}
