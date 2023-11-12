@@ -18,3 +18,15 @@ type Resolver struct {
 	Fwr  repository.FrameworkRepository
 	Ptr  repository.PatternRepository
 }
+
+func NewResolver(fwcr repository.FrameworkCodeRepository,
+	ptcr repository.PatternCodeRepository,
+	arcr repository.AlgorithmCodeRepository,
+	lgcr repository.LanguageCodeRepository,
+	lgr repository.LanguageRepository,
+	fwr repository.FrameworkRepository,
+	arr repository.AlgorithmRepository,
+	ptr repository.PatternRepository) Resolver {
+	return Resolver{Fwcr: fwcr, Ptcr: ptcr, Arcr: arcr, Lgcr: lgcr,
+		Lgr: lgr, Fwr: fwr, Arr: arr, Ptr: ptr}
+}

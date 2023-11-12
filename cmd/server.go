@@ -7,10 +7,9 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/tf63/code-api/api" // 修正
-	"github.com/tf63/code-api/external"
-	"github.com/tf63/code-api/internal/repository"
-	"github.com/tf63/code-api/internal/resolver" // 修正
+	"github.com/tf63/code-api/api"      // 修正
+	"github.com/tf63/code-api/external" // 修正
+	"github.com/tf63/code-api/internal/wire"
 )
 
 const defaultPort = "8080"
@@ -31,17 +30,7 @@ func main() {
 		log.Fatal("Failed to Connect Database")
 	}
 
-	fwcr := repository.NewFrameworkCodeRepository(db)
-	lgcr := repository.NewLanguageCodeRepository(db)
-	ptcr := repository.NewPatternCodeRepository(db)
-	arcr := repository.NewAlgorithmCodeRepository(db)
-	lgr := repository.NewLanguageRepository(db, rdb)
-	fwr := repository.NewFrameworkRepository(db, rdb)
-	arr := repository.NewAlgorithmRepository(db, rdb)
-	ptr := repository.NewPatternRepository(db, rdb)
-
-	resolver := resolver.Resolver{Fwcr: fwcr, Ptcr: ptcr, Arcr: arcr, Lgcr: lgcr,
-		Lgr: lgr, Fwr: fwr, Arr: arr, Ptr: ptr}
+	resolver := wire.Wire(db, rdb)
 	srv := handler.NewDefaultServer(api.NewExecutableSchema(api.Config{Resolvers: &resolver}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
