@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/99designs/gqlgen v0.17.37
+	github.com/google/wire v0.5.0
 	github.com/lib/pq v1.10.9
 	github.com/redis/go-redis/v9 v9.2.1
 	github.com/vektah/gqlparser/v2 v2.5.9
