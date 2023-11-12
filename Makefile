@@ -20,7 +20,9 @@ TOOLS=\
 	github.com/go-delve/delve/cmd/dlv@latest \
 	golang.org/x/tools/cmd/godoc@latest \
 	github.com/99designs/gqlgen@latest \
-	github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+	github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest \
+	github.com/cosmtrek/air@latest \
+	github.com/google/wire/cmd/wire@latest
 
 install-tools:
 	@for tool in $(TOOLS) ; do \

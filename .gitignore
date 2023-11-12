@@ -6,6 +6,7 @@ input/
 out/
 data/
 migrations/
+tmp/
 
 # env
 .env.local
