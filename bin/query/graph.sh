@@ -1,13 +1,26 @@
 #!/bin/bash
 script='query {
-  programCodes(input: {
-    toolId: "17",
+  languageCodes(input: {
+    languageId: "2",
     startRow: 0,
     endRow: 100,
     offset: 0,
     limit: 2
   }){
-    programCodeId,
+    languageCodeId,
+    content,
+    nrow,
+    createdAt,
+    languageId
+  }
+  frameworkCodes(input: {
+    toolId: "215",
+    startRow: 0,
+    endRow: 100,
+    offset: 0,
+    limit: 2
+  }){
+    frameworkCodeId,
     content,
     nrow,
     createdAt,
@@ -15,10 +28,10 @@ script='query {
   }
   
   patternCodes(input: {
-    patternId: "1",
-    languageId: "1",
+    patternId: "12",
+    languageId: "12",
     startRow: 0,
-    endRow: 10,
+    endRow: 100,
     offset: 0,
     limit: 2
   }){
@@ -31,10 +44,10 @@ script='query {
   }
   
   algorithmCodes(input: {
-    algorithmId: "1",
-    languageId: "1",
+    algorithmId: "13",
+    languageId: "8",
     startRow: 0,
-    endRow: 10,
+    endRow: 100,
     offset: 0,
     limit: 2
   }){
