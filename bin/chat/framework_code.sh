@@ -53,5 +53,6 @@ NROW=$((NROW+1))
 CONTENT="${RESPONSE_DATA:1:${#RESPONSE_DATA}-2}"
 CONTENT=${CONTENT#*<code>}
 CONTENT=${CONTENT%</code>*}
+echo "${NROW},${TOOL_ID},\"${CONTENT}\"" >> $OUT_PATH
 echo "save to ${OUT_PATH}"
 # ---------------------------------------------------------------------
