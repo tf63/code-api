@@ -1,4 +1,4 @@
-package entity
+package config
 
 const (
 	REDIS_ALGORITHM = "redis-algorithm"

@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/tf63/code-api/pkg/config"
 	"github.com/tf63/code-api/pkg/domain/entity"
 	"github.com/tf63/code-api/pkg/domain/repository"
 )
@@ -29,7 +30,7 @@ func (ar *algorithmRepository) ReadAlgorithms() ([]entity.Algorithm, error) {
 
 	// キャッシュを取得してみる
 	ctx := context.Background()
-	cachedList, err := ar.rdb.Get(ctx, entity.REDIS_ALGORITHM).Result()
+	cachedList, err := ar.rdb.Get(ctx, config.REDIS_ALGORITHM).Result()
 
 	// キャッシュが存在したらキャッシュを返す
 	if err == nil {
@@ -70,7 +71,7 @@ func (ar *algorithmRepository) ReadAlgorithms() ([]entity.Algorithm, error) {
 	}
 
 	// シリアライズしたものをキャッシュとして保存する
-	if err := ar.rdb.Set(ctx, entity.REDIS_ALGORITHM, jsonAlgorithm, 0).Err(); err != nil {
+	if err := ar.rdb.Set(ctx, config.REDIS_ALGORITHM, jsonAlgorithm, 0).Err(); err != nil {
 		return nil, err
 	}
 
