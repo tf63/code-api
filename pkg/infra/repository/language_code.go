@@ -8,7 +8,7 @@ import (
 )
 
 type languageCodeRepository struct {
-	Db *sql.DB
+	db *sql.DB
 }
 
 // インターフェースを実装しているかチェック
@@ -36,7 +36,7 @@ func (pgcr *languageCodeRepository) ReadLanguageCode(findLanguageCode entity.Fin
 	}
 
 	// クエリを実行
-	rows, err := pgcr.Db.Query(query, args...)
+	rows, err := pgcr.db.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}

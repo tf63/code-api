@@ -12,8 +12,8 @@ import (
 )
 
 type algorithmRepository struct {
-	Db  *sql.DB
-	Rdb *redis.Client
+	db  *sql.DB
+	rdb *redis.Client
 }
 
 // インターフェースを実装しているかチェック
@@ -29,7 +29,7 @@ func (ar *algorithmRepository) ReadAlgorithms() ([]entity.Algorithm, error) {
 
 	// キャッシュを取得してみる
 	ctx := context.Background()
-	cachedList, err := ar.Rdb.Get(ctx, entity.REDIS_ALGORITHM).Result()
+	cachedList, err := ar.rdb.Get(ctx, entity.REDIS_ALGORITHM).Result()
 
 	// キャッシュが存在したらキャッシュを返す
 	if err == nil {
@@ -48,7 +48,7 @@ func (ar *algorithmRepository) ReadAlgorithms() ([]entity.Algorithm, error) {
 	query := `SELECT algorithm_id, name FROM algorithm`
 
 	// クエリを実行
-	rows, err := ar.Db.Query(query)
+	rows, err := ar.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (ar *algorithmRepository) ReadAlgorithms() ([]entity.Algorithm, error) {
 	}
 
 	// シリアライズしたものをキャッシュとして保存する
-	if err := ar.Rdb.Set(ctx, entity.REDIS_ALGORITHM, jsonAlgorithm, 0).Err(); err != nil {
+	if err := ar.rdb.Set(ctx, entity.REDIS_ALGORITHM, jsonAlgorithm, 0).Err(); err != nil {
 		return nil, err
 	}
 

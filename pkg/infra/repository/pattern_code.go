@@ -8,7 +8,7 @@ import (
 )
 
 type patternCodeRepository struct {
-	Db *sql.DB
+	db *sql.DB
 }
 
 // インターフェースを実装しているかチェック
@@ -38,7 +38,7 @@ func (ptcr *patternCodeRepository) ReadPatternCode(findPatternCode entity.FindPa
 	}
 
 	// クエリを実行
-	rows, err := ptcr.Db.Query(query, args...)
+	rows, err := ptcr.db.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}

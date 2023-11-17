@@ -8,7 +8,7 @@ import (
 )
 
 type algorithmCodeRepository struct {
-	Db *sql.DB
+	db *sql.DB
 }
 
 // インターフェースを実装しているかチェック
@@ -38,7 +38,7 @@ func (arcr *algorithmCodeRepository) ReadAlgorithmCode(findAlgorithmCode entity.
 	}
 
 	// クエリを実行
-	rows, err := arcr.Db.Query(query, args...)
+	rows, err := arcr.db.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}

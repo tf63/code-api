@@ -12,8 +12,8 @@ import (
 )
 
 type frameworkRepository struct {
-	Db  *sql.DB
-	Rdb *redis.Client
+	db  *sql.DB
+	rdb *redis.Client
 }
 
 // インターフェースを実装しているかチェック
@@ -29,7 +29,7 @@ func (fr *frameworkRepository) ReadFrameworks() ([]entity.Framework, error) {
 
 	// キャッシュを取得してみる
 	ctx := context.Background()
-	cachedList, err := fr.Rdb.Get(ctx, entity.REDIS_FRAMEWORK).Result()
+	cachedList, err := fr.rdb.Get(ctx, entity.REDIS_FRAMEWORK).Result()
 
 	// キャッシュが存在したらキャッシュを返す
 	if err == nil {
@@ -48,7 +48,7 @@ func (fr *frameworkRepository) ReadFrameworks() ([]entity.Framework, error) {
 	query := `SELECT framework_id, name FROM framework`
 
 	// クエリを実行
-	rows, err := fr.Db.Query(query)
+	rows, err := fr.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (fr *frameworkRepository) ReadFrameworks() ([]entity.Framework, error) {
 	}
 
 	// シリアライズしたものをキャッシュとして保存する
-	if err := fr.Rdb.Set(ctx, entity.REDIS_FRAMEWORK, jsonFramework, 0).Err(); err != nil {
+	if err := fr.rdb.Set(ctx, entity.REDIS_FRAMEWORK, jsonFramework, 0).Err(); err != nil {
 		return nil, err
 	}
 

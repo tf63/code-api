@@ -9,14 +9,14 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Fwcr repository.FrameworkCodeRepository
-	Lgcr repository.LanguageCodeRepository
-	Ptcr repository.PatternCodeRepository
-	Arcr repository.AlgorithmCodeRepository
-	Lgr  repository.LanguageRepository
-	Arr  repository.AlgorithmRepository
-	Fwr  repository.FrameworkRepository
-	Ptr  repository.PatternRepository
+	fwcr repository.FrameworkCodeRepository
+	lgcr repository.LanguageCodeRepository
+	ptcr repository.PatternCodeRepository
+	arcr repository.AlgorithmCodeRepository
+	lgr  repository.LanguageRepository
+	arr  repository.AlgorithmRepository
+	fwr  repository.FrameworkRepository
+	ptr  repository.PatternRepository
 }
 
 func NewResolver(fwcr repository.FrameworkCodeRepository,
@@ -27,6 +27,6 @@ func NewResolver(fwcr repository.FrameworkCodeRepository,
 	fwr repository.FrameworkRepository,
 	arr repository.AlgorithmRepository,
 	ptr repository.PatternRepository) Resolver {
-	return Resolver{Fwcr: fwcr, Ptcr: ptcr, Arcr: arcr, Lgcr: lgcr,
-		Lgr: lgr, Fwr: fwr, Arr: arr, Ptr: ptr}
+	return Resolver{fwcr: fwcr, ptcr: ptcr, arcr: arcr, lgcr: lgcr,
+		lgr: lgr, fwr: fwr, arr: arr, ptr: ptr}
 }

@@ -12,8 +12,8 @@ import (
 )
 
 type languageRepository struct {
-	Db  *sql.DB
-	Rdb *redis.Client
+	db  *sql.DB
+	rdb *redis.Client
 }
 
 // インターフェースを実装しているかチェック
@@ -29,7 +29,7 @@ func (lr *languageRepository) ReadLanguages() ([]entity.Language, error) {
 
 	// キャッシュを取得してみる
 	ctx := context.Background()
-	cachedList, err := lr.Rdb.Get(ctx, entity.REDIS_LANGUAGE).Result()
+	cachedList, err := lr.rdb.Get(ctx, entity.REDIS_LANGUAGE).Result()
 
 	// キャッシュが存在したらキャッシュを返す
 	if err == nil {
@@ -48,7 +48,7 @@ func (lr *languageRepository) ReadLanguages() ([]entity.Language, error) {
 	query := `SELECT language_id, name FROM language`
 
 	// クエリを実行
-	rows, err := lr.Db.Query(query)
+	rows, err := lr.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (lr *languageRepository) ReadLanguages() ([]entity.Language, error) {
 	}
 
 	// シリアライズしたものをキャッシュとして保存する
-	if err := lr.Rdb.Set(ctx, entity.REDIS_LANGUAGE, jsonLanguage, 0).Err(); err != nil {
+	if err := lr.rdb.Set(ctx, entity.REDIS_LANGUAGE, jsonLanguage, 0).Err(); err != nil {
 		return nil, err
 	}
 

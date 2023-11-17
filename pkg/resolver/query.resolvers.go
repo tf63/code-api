@@ -13,7 +13,7 @@ import (
 // Languages is the resolver for the languages field.
 func (r *queryResolver) Languages(ctx context.Context) ([]*api.Language, error) {
 	// Languageを取得
-	languages, err := r.Lgr.ReadLanguages()
+	languages, err := r.lgr.ReadLanguages()
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func (r *queryResolver) Languages(ctx context.Context) ([]*api.Language, error) 
 // Frameworks is the resolver for the frameworks field.
 func (r *queryResolver) Frameworks(ctx context.Context) ([]*api.Framework, error) {
 	// Frameworkを取得
-	frameworks, err := r.Fwr.ReadFrameworks()
+	frameworks, err := r.fwr.ReadFrameworks()
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (r *queryResolver) Frameworks(ctx context.Context) ([]*api.Framework, error
 // Algorithms is the resolver for the algorithms field.
 func (r *queryResolver) Algorithms(ctx context.Context) ([]*api.Algorithm, error) {
 	// Algorithmを取得
-	algorithms, err := r.Arr.ReadAlgorithms()
+	algorithms, err := r.arr.ReadAlgorithms()
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (r *queryResolver) Algorithms(ctx context.Context) ([]*api.Algorithm, error
 // Patterns is the resolver for the patterns field.
 func (r *queryResolver) Patterns(ctx context.Context) ([]*api.Pattern, error) {
 	// Patternを取得
-	patterns, err := r.Ptr.ReadPatterns()
+	patterns, err := r.ptr.ReadPatterns()
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func (r *queryResolver) FrameworkCodes(ctx context.Context, input api.FindFramew
 	}
 
 	// FrameworkCodeを取得
-	frameworkCodes, err := r.Fwcr.ReadFrameworkCode(*findFrameworkCode)
+	frameworkCodes, err := r.fwcr.ReadFrameworkCode(*findFrameworkCode)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func (r *queryResolver) PatternCodes(ctx context.Context, input api.FindPatternC
 	}
 
 	// PatternCodeを取得
-	patternCodes, err := r.Ptcr.ReadPatternCode(*findPatternCode)
+	patternCodes, err := r.ptcr.ReadPatternCode(*findPatternCode)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func (r *queryResolver) AlgorithmCodes(ctx context.Context, input api.FindAlgori
 	}
 
 	// AlgorithmCodeを取得
-	algorithmCodes, err := r.Arcr.ReadAlgorithmCode(*findAlgorithmCode)
+	algorithmCodes, err := r.arcr.ReadAlgorithmCode(*findAlgorithmCode)
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func (r *queryResolver) LanguageCodes(ctx context.Context, input api.FindLanguag
 	}
 
 	// LanguageCodeを取得
-	languageCodes, err := r.Lgcr.ReadLanguageCode(*findLanguageCode)
+	languageCodes, err := r.lgcr.ReadLanguageCode(*findLanguageCode)
 	if err != nil {
 		return nil, err
 	}

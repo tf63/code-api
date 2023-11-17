@@ -12,8 +12,8 @@ import (
 )
 
 type patternRepository struct {
-	Db  *sql.DB
-	Rdb *redis.Client
+	db  *sql.DB
+	rdb *redis.Client
 }
 
 // インターフェースを実装しているかチェック
@@ -29,7 +29,7 @@ func (pr *patternRepository) ReadPatterns() ([]entity.Pattern, error) {
 
 	// キャッシュを取得してみる
 	ctx := context.Background()
-	cachedList, err := pr.Rdb.Get(ctx, entity.REDIS_PATTERN).Result()
+	cachedList, err := pr.rdb.Get(ctx, entity.REDIS_PATTERN).Result()
 
 	// キャッシュが存在したらキャッシュを返す
 	if err == nil {
@@ -48,7 +48,7 @@ func (pr *patternRepository) ReadPatterns() ([]entity.Pattern, error) {
 	query := `SELECT pattern_id, name FROM pattern`
 
 	// クエリを実行
-	rows, err := pr.Db.Query(query)
+	rows, err := pr.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (pr *patternRepository) ReadPatterns() ([]entity.Pattern, error) {
 	}
 
 	// シリアライズしたものをキャッシュとして保存する
-	if err := pr.Rdb.Set(ctx, entity.REDIS_PATTERN, jsonPattern, 0).Err(); err != nil {
+	if err := pr.rdb.Set(ctx, entity.REDIS_PATTERN, jsonPattern, 0).Err(); err != nil {
 		return nil, err
 	}
 
