@@ -31,16 +31,27 @@ CREATE TABLE IF NOT EXISTS tool (
 );
 COMMENT ON TABLE tool IS 'frameworkとlanguageをまとめるテーブル';
 
-CREATE TABLE IF NOT EXISTS program_code (
-    program_code_id SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS language_code (
+    language_code_id SERIAL PRIMARY KEY,
+    content TEXT NOT NULL,
+    nrow BIGINT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    language_id BIGINT NOT NULL,
+    FOREIGN KEY (language_id) REFERENCES public.language(language_id) ON DELETE RESTRICT
+);
+CREATE INDEX ON language_code (language_id, nrow);
+COMMENT ON TABLE language_code IS 'プログラミング言語のソースコードを管理するテーブル';
+
+CREATE TABLE IF NOT EXISTS framework_code (
+    framework_code_id SERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     nrow BIGINT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     tool_id BIGINT NOT NULL,
     FOREIGN KEY (tool_id) REFERENCES public.tool(tool_id) ON DELETE RESTRICT
 );
-CREATE INDEX ON program_code (tool_id, nrow);
-COMMENT ON TABLE program_code IS 'プログラミング言語のソースコードを管理するテーブル';
+CREATE INDEX ON framework_code (tool_id, nrow);
+COMMENT ON TABLE framework_code IS 'フレームワークやライブラリのソースコードを管理するテーブル';
 
 CREATE TABLE IF NOT EXISTS algorithm_code (
     algorithm_code_id SERIAL PRIMARY KEY,

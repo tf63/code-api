@@ -28,13 +28,13 @@ INSERT INTO pattern (pattern_id, name)
 ;
 
 -- not Master ?
-INSERT INTO program_code (program_code_id, content, nrow, tool_id)
-    SELECT i, format('code %s', i), mod(i, 30), i/30 + 1
+INSERT INTO language_code (language_code_id, content, nrow, language_id)
+    SELECT i, format('code %s', i), mod(i, 30)+1, mod(i, 30)+1
         FROM generate_series(1, 1000000) as i
 ;
 
 INSERT INTO algorithm_code (algorithm_code_id, content, nrow, language_id, algorithm_id)
-    SELECT i, format('code %s', i), mod(i, 30), mod(i, 100)+1, i/30 + 1
+    SELECT i, format('code %s', i), mod(i, 30)+1, mod(i, 30)+1, mod(i, 30)+1
         FROM generate_series(1, 1000000) as i
 ;
 
